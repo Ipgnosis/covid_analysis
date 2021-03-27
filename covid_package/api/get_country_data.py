@@ -29,6 +29,7 @@ def get_level_1_data(this_data, these_keys, req_keys):
     return return_dict
 
 # the level 2 key api
+# req_keys is a list of level 2 keys
 
 
 def get_l2_keys_data(this_data, these_keys, req_keys):
@@ -36,20 +37,33 @@ def get_l2_keys_data(this_data, these_keys, req_keys):
     return_dict = dict()
 
     for iso in these_keys:
+
         country_dict = dict()
-        country_list = []
-        day_data = False
+        data_list = []
+
+        # traverse the list of day dicts
         for day in range(len(this_data[iso]['data'])):
+
+            day_data = False  # we haven't found any data yet
             day_dict = dict()
-            day_dict['date'] = this_data[iso]['data'][day]['date']
-            for req_key in req_keys:
-                if req_key in this_data[iso]['data'][day].keys():
-                    day_data = True
-                    day_dict[req_key] = this_data[iso]['data'][day][req_key]
-            if day_data:  # only write the day
-                country_list.append(day_dict)
-            country_dict['data'] = country_list
-        return_dict[iso] = country_dict
+
+            # traverse the dict of key:vals looking for the required data
+            for req_key in range(len(req_keys)):
+                # locate the required data in the dict
+                if req_keys[req_key] in this_data[iso]['data'][day].keys():
+                    day_data = True  # we have now found data
+                    # write the key:val
+                    day_dict[req_keys[req_key]
+                             ] = this_data[iso]['data'][day][req_keys[req_key]]
+
+            # only append the day_dict to the list if we have found data
+            if day_data:
+                # only add the date key_val if we have found data
+                day_dict['date'] = this_data[iso]['data'][day]['date']
+                data_list.append(day_dict)
+
+        # add the country data to the return data
+        return_dict[iso] = data_list
 
     return return_dict
 
@@ -72,3 +86,40 @@ def get_l2_date_data(this_data, these_keys, this_date):
         return_dict[iso] = country_dict
 
     return return_dict
+
+
+def main():
+
+    import os
+    import sys
+
+    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis")
+
+    from pathlib import Path
+    from covid_package.libs.store_data import read_data
+    from covid_package.libs.valid_keys import fetch_l0_keys
+
+    # get data
+    CURRENT_DIR = os.path.abspath('')
+    sys.path.append(CURRENT_DIR)
+
+    FILE_NAME = 'owid-covid-data.json'
+    file_path = os.path.join(CURRENT_DIR, 'data', FILE_NAME)
+    DATA_FILE = Path(file_path)
+
+    # read the data file from the data dir
+    data = read_data(DATA_FILE)
+
+    key_list = fetch_l0_keys(data)
+
+    print("Testing get_l2_keys_data.py")
+
+    required_data = ['new_cases_per_million', 'new_deaths_per_million']
+
+    # run the function
+    print(get_l2_keys_data(data, key_list, required_data))
+
+
+# stand alone test run
+if __name__ == "__main__":
+    main()
