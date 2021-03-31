@@ -38,7 +38,6 @@ def get_l2_keys_data(this_data, these_keys, req_keys):
 
     for iso in these_keys:
 
-        country_dict = dict()
         data_list = []
 
         # traverse the list of day dicts

@@ -36,8 +36,25 @@ def fetch_date_range(this_data, this_country):
 
     return start_date, end_date
 
-# return the date of the latest data
+# return an ordered list of distinct dates contained in the data
 
+
+def fetch_date_list(this_data, country_keys):
+
+    date_list = []
+
+    for this_country in country_keys:
+        for date in range(len(this_data[this_country]['data'])):
+            this_date = this_data[this_country]['data'][date]['date']
+            if this_date not in set(date_list):
+                date_list.append(this_date)
+
+    date_list_sorted = sorted(date_list, key=lambda x: x)
+
+    return date_list_sorted
+
+
+# return the date of the latest data
 
 def fetch_latest_data_date(this_data, country_keys):
 
@@ -78,17 +95,17 @@ def main():
 
     import sys
 
-    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\ipgn_covid")
+    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis")
 
     agg_test_data = {
+        "CAN": {"median_age": 41.4,
+                "data": [{"date": "2020-11-01", "new_deaths": 1}, {"date": "2020-11-02", "new_deaths": 2}, {"date": "2020-11-03", "new_deaths": 3}]
+                },
         "AFG": {"population": 38928341.0,
                 "data": [{"date": "2020-09-01", "new_cases": 1}, {"date": "2020-09-02", "new_cases": 1}, {"date": "2020-09-03", "new_cases": 1}]
                 },
         "BEL": {"gdp_per_capita": 42658.576,
                 "data": [{"date": "2020-10-01", "new_cases_per_million": 0.1}, {"date": "2020-10-02", "new_cases_per_million": 0.1}, {"date": "2020-10-03", "new_cases_per_million": 0.1}]
-                },
-        "CAN": {"median_age": 41.4,
-                "data": [{"date": "2020-11-01", "new_deaths": 1}, {"date": "2020-11-02", "new_deaths": 2}, {"date": "2020-11-03", "new_deaths": 3}]
                 },
         "VAT": {"median_age": 21000,
                 "data": [{"date": "2020-12-01", "new_cases_per_million": 0.1}, {"date": "2020-12-02", "new_cases_per_million": 0.1}, {"date": "2020-12-03", "new_cases_per_million": 0.1}]
@@ -98,6 +115,8 @@ def main():
     agg_country_keys = ["AFG", "BEL", "CAN", "VAT"]
 
     print("\nTesting aggregate_data.py:")
+
+    print(fetch_date_list(agg_test_data, agg_country_keys))
 
     print("count_daily_records (ans = 3):",
           count_daily_records(agg_test_data, "AFG"))

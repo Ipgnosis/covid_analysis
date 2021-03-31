@@ -18,7 +18,7 @@ def main():
 
     import sys
 
-    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\ipgn_covid")
+    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis")
 
     from covid_package.libs.valid_keys import fetch_l0_keys
 
