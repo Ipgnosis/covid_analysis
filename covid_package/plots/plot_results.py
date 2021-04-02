@@ -8,23 +8,16 @@ import matplotlib.pyplot as plt
 
 def subplot_share_axis(labels, results):
 
-    #x_label = "Cross wins; mode: {}".format(x_mode)
-    #o_label = "Nought wins; mode: {}".format(o_mode)
+    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
+    fig.subplots_adjust(hspace=0.5)
 
-    ax1 = plt.subplot(211)
-    plt.plot(results['x_axis'], results['y1_axis'])
-    plt.legend(handles=labels['legend_1'])
-    plt.setp(ax1.get_xticklabels(), visible=False)
+    ax1.plot(results['x_axis'], results['y1_axis'])
+    ax1.set_xlabel(labels['x_axis_label'])
+    ax1.set_ylabel(labels['y1_axis_label'])
 
-    ax2 = plt.subplot(212, sharex=ax1)
-    plt.plot(results['x_axis'], results['y2_axis'])
-    plt.legend(handles=labels['legend_2'])
-    plt.setp(ax2.get_xticklabels(), fontsize=6)
+    ax2.plot(results['x_axis'], results['y2_axis'])
+    ax2.set_ylabel(labels['y2_axis_label'])
 
-    plt.title(labels['chart_title'])
-    plt.xlabel(labels['x_axis_label'])
-    plt.ylabel(labels['y_axis_label'])
-
+    fig.set_title(labels['chart_title'])
     plt.legend()
-
     plt.show()

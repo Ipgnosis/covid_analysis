@@ -60,8 +60,8 @@ def fetch_latest_data_date(this_data, country_keys):
 
     latest_date = "2020-01-01"
 
-    for this_country in country_keys:
-        last_date = this_data[this_country]["data"][-1]["date"]
+    for this_country in range(len(country_keys)):
+        last_date = this_data[country_keys[this_country]]["data"][-1]["date"]
         if last_date > latest_date:
             latest_date = last_date
 
