@@ -16,13 +16,15 @@ def get_country_key_mappings(this_data):
 # fix this below
 #################################
 def main():
-    from covid_package.libs.store_data import read_data
+
+    #from covid_package.libs.store_data import read_json_data
 
     # read the data file from the data dir
-    data = read_data()
+    #data = read_json_data()
 
     # run the function
-    print(get_country_key_mappings(data))
+    #print(get_country_key_mappings(data))
+    pass
 
 
 # stand alone test run

@@ -95,7 +95,7 @@ def main():
     sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis")
 
     from pathlib import Path
-    from covid_package.libs.store_data import read_data
+    from covid_package.data_funcs.store_data import read_json_data
     from covid_package.libs.valid_keys import fetch_l0_keys
 
     # get data
@@ -107,7 +107,7 @@ def main():
     DATA_FILE = Path(file_path)
 
     # read the data file from the data dir
-    data = read_data(DATA_FILE)
+    data = read_json_data(DATA_FILE)
 
     key_list = fetch_l0_keys(data)
 
