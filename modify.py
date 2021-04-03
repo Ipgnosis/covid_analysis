@@ -6,16 +6,16 @@ from pathlib import Path
 
 data_file_name = 'owid-covid-data.json'
 old_data_file_name = 'owid-covid-data-old.json'
-update_file_name = 'update-data.json'
+update_file_name = 'update-record.json'
 
-CURRENT_DIR_STR = os.path.abspath('')
-DATA_URL_STR = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.json"
-UPDATE_DATETIME_STR = "2020-01-01T10:00:00Z"
-DATA_FILE_STR = os.path.join(CURRENT_DIR_STR, 'data', data_file_name)
-OLD_FILE_STR = os.path.join(CURRENT_DIR_STR, 'data', old_data_file_name)
-UPDATE_FILE_STR = os.path.join(CURRENT_DIR_STR, 'data', update_file_name)
-COVID_PACKAGE_STR = os.path.join(CURRENT_DIR_STR, 'covid_package')
-DATA_FILE_PATH = Path(DATA_FILE_STR)
-OLD_FILE_PATH = Path(OLD_FILE_STR)
-UPDATE_FILE_PATH = Path(UPDATE_FILE_STR)
-COVID_PACKAGE_PATH = Path(COVID_PACKAGE_STR)
+config.CURRENT_DIR_STR = os.path.abspath('')
+config.DATA_URL_STR = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.json"
+config.UPDATE_DATETIME_STR = "2020-01-01T10:00:00Z"
+config.DATA_FILE_STR = os.path.join(config.CURRENT_DIR_STR, 'data', data_file_name)
+config.OLD_FILE_STR = os.path.join(config.CURRENT_DIR_STR, 'data', old_data_file_name)
+config.UPDATE_FILE_STR = os.path.join(config.CURRENT_DIR_STR, 'data', update_file_name)
+config.COVID_PACKAGE_STR = os.path.join(config.CURRENT_DIR_STR, 'covid_package')
+config.DATA_FILE_PATH = Path(config.DATA_FILE_STR)
+config.OLD_FILE_PATH = Path(config.OLD_FILE_STR)
+config.UPDATE_FILE_PATH = Path(config.UPDATE_FILE_STR)
+config.COVID_PACKAGE_PATH = Path(config.COVID_PACKAGE_STR)

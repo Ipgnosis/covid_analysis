@@ -85,7 +85,7 @@ def refresh_data(source_url, data_file):
         return False
 
     if write_json_data(config.DATA_FILE_STR, downloaded_data):
-        update_the_update_file(config.UPDATE_DATETIME_STR)
+        update_the_update_file()
     else:
         return False
 
@@ -96,7 +96,6 @@ def refresh_data(source_url, data_file):
 def get_last_file_update():
 
     update_data_file = read_json_data(config.UPDATE_FILE_STR)
-    print("get_last_file_update: update_data_file = ", update_data_file)
 
     last_update_str = update_data_file["last_update"]
 
@@ -104,28 +103,50 @@ def get_last_file_update():
 
 
 # append new update time to UPDATE_FILE
-def update_the_update_file(new_update_datetime):
+def update_the_update_file():
 
     update_data = read_json_data(config.UPDATE_FILE_STR)
 
     update_data['update_list'].append(update_data['last_update'])
 
-    update_data['last_update'] = new_update_datetime
+    update_data['last_update'] = config.UPDATE_DATETIME_STR
 
     if write_json_data(config.UPDATE_FILE_STR, update_data):
         pass
     else:
         print("Error updating UPDATE_FILE")
 
+
 # do the datetime jiggery-pokery
 def convert_datetime_str_to_obj(datetime_str):
 
     github_format = "%Y-%m-%dT%H:%M:%S%z"
 
-    print("conv_dt_str_obj: datetime_str = ", datetime_str)
-
     datetime_obj = datetime.strptime(datetime_str, github_format)
 
-    print("conv_dt_str_obj: datetime_obj = ", datetime_obj)
-
     return datetime_obj
+
+
+# test function
+
+def main():
+
+    import os
+    import sys
+    import json
+    from pathlib import Path
+    import config, modify
+
+
+
+
+
+    # get data
+
+
+    #print("After update:", fetch_latest_data_date(data, key_list))
+
+# stand alone test run
+# don't forget to flip the import statements
+if __name__ == "__main__":
+    main()

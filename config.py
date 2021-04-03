@@ -1,6 +1,5 @@
-# manage the global variables
+# declare the global variables
 
-from typing import get_type_hints
 from pathlib import Path
 
 CURRENT_DIR_STR = str

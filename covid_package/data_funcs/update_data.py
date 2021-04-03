@@ -15,22 +15,22 @@ def check_refresh_data():
     if expired_data():
 
         # rename data file
-        if rename_file(config.DATA_FILE, config.OLD_FILE):
+        if rename_file(config.DATA_FILE_STR, config.OLD_FILE_STR):
             # the file rename succeeded
             pass
         else:
             # the file rename failed
-            print("File '{}' rename failed".format(config.DATA_FILE))
+            print("File '{}' rename failed".format(config.DATA_FILE_STR))
             # delete the old data so we don't get an overwrite problem
-            delete_file(config.DATA_FILE)
+            delete_file(config.DATA_FILE_STR)
 
         # try to get an updated copy of the data
-        if refresh_data(config.DATA_URL, config.DATA_FILE):
+        if refresh_data(config.DATA_URL_STR, config.DATA_FILE_STR):
             # safe to delete the old data file
-            delete_file(config.OLD_FILE)
+            delete_file(config.OLD_FILE_STR)
             print("Data updated")
         else:  # un-rename data file
-            if rename_file(config.OLD_FILE, config.DATA_FILE):
+            if rename_file(config.OLD_FILE_STR, config.DATA_FILE_STR):
                 print("Old data restored")
             else:
                 print("Data restore failed - check data integrity")
@@ -57,8 +57,6 @@ def expired_data():
     config.UPDATE_DATETIME_STR = get_last_file_update()
     last_updatetime_obj = convert_datetime_str_to_obj(config.UPDATE_DATETIME_STR)
 
-    print("latest data UPDATE:", config.UPDATE_DATETIME_STR)
-
     # get latest update datetime of owid data
     owid_updatetime = get_update_time_fm_owid()
     owid_updatetime_obj = convert_datetime_str_to_obj(owid_updatetime)
@@ -66,6 +64,8 @@ def expired_data():
     # calculate if data in need of update
     if owid_updatetime_obj > last_updatetime_obj:  # we should reload the data file
         print("Expired data file")
+        # update the global to reflect the new update time
+        config.UPDATE_DATETIME_STR = owid_updatetime
         return True
 
     else:
@@ -111,7 +111,7 @@ def get_update_time_fm_owid():
     updatetime_str = timeago.get('datetime')
 
     # debug output
-    print("get_update_time_fm_owid: updatetime_str = ", updatetime_str)
+    #print("get_update_time_fm_owid: updatetime_str = ", updatetime_str)
 
     return updatetime_str
 
