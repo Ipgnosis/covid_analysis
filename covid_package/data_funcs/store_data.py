@@ -1,7 +1,4 @@
-# read covid data and apply small kluge for consistency
-
-# Note that in the OWID data, Kosovo has a special iso_code: OWID_KOS   Kosovo
-# So for consistency, per above, Kosovo is being assigned a fake iso_code KOS
+# utility functions for managing data
 
 
 import json
@@ -9,8 +6,7 @@ import os
 import requests
 import config, modify
 
-from datetime import date, datetime, timedelta
-
+from datetime import date, datetime
 
 # convert some of the iso_codes to 3 char codes
 def convert_owid_data(this_data):
@@ -78,14 +74,16 @@ def rename_file(fromf, tof):
 # download and save new data file version
 def refresh_data(source_url, data_file):
 
+    # get the json data from github
     try:
         downloaded_data = requests.get(source_url).json()
     except:
         print("Data cannot be downloaded")
         return False
 
+    # if we updated the data without error
     if write_json_data(config.DATA_FILE_STR, downloaded_data):
-        update_the_update_file()
+        update_the_update_file() # update the record of updates
     else:
         return False
 
@@ -105,12 +103,27 @@ def get_last_file_update():
 # append new update time to UPDATE_FILE
 def update_the_update_file():
 
+    # get the update file
     update_data = read_json_data(config.UPDATE_FILE_STR)
 
+    # push the last update onto the historical record
     update_data['update_list'].append(update_data['last_update'])
 
+    # store the new update datetime
     update_data['last_update'] = config.UPDATE_DATETIME_STR
 
+    # keep a record of the earliest time that the file was updated
+    # we'll need this later, but building the record for now
+    # extract 2 time objects for comparison
+    earliest_update = convert_datetime_str_to_obj(update_data['earliest_update'], 'time')
+    this_update = convert_datetime_str_to_obj(config.UPDATE_DATETIME_STR, 'time')
+
+    # update the earliest update time as necessary
+    # don't forget that this is a datetime string - this will need to be reconverted later once needed
+    if this_update < earliest_update:
+        update_data['earliest_update'] = config.UPDATE_DATETIME_STR
+
+    # write the updated update file
     if write_json_data(config.UPDATE_FILE_STR, update_data):
         pass
     else:
@@ -118,33 +131,44 @@ def update_the_update_file():
 
 
 # do the datetime jiggery-pokery
-def convert_datetime_str_to_obj(datetime_str):
+def convert_datetime_str_to_obj(datetime_str, resolution):
 
     github_format = "%Y-%m-%dT%H:%M:%S%z"
 
     datetime_obj = datetime.strptime(datetime_str, github_format)
 
-    return datetime_obj
+    if resolution == 'datetime':
+            return_obj = datetime_obj
+
+    elif resolution == 'date':
+            return_obj = datetime.date(datetime_obj)
+
+    elif resolution == 'time':
+            return_obj = datetime.time(datetime_obj)
+    else:
+        return False # incorrect parameter
+
+    return return_obj
 
 
 # test function
 
 def main():
 
-    import os
-    import sys
-    import json
-    from pathlib import Path
-    import config, modify
+    #import os
+    #import sys
+    #import json
+    #from pathlib import Path
 
+    #import config, modify # need to fix the path for this
 
+    dtstr = "2021-04-04T08:02:44Z"
 
+    print("datetime =", convert_datetime_str_to_obj(dtstr, 'datetime'))
 
+    print("date =", convert_datetime_str_to_obj(dtstr, 'date'))
 
-    # get data
-
-
-    #print("After update:", fetch_latest_data_date(data, key_list))
+    print("time =", convert_datetime_str_to_obj(dtstr, 'time'))
 
 # stand alone test run
 # don't forget to flip the import statements

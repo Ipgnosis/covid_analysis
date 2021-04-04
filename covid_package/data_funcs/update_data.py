@@ -9,12 +9,13 @@ from covid_package.libs.aggregate_data import fetch_latest_data_date
 from covid_package.data_funcs.store_data import read_json_data, write_json_data, delete_file, rename_file, refresh_data, convert_owid_data, get_last_file_update, convert_datetime_str_to_obj
 
 
-# check data up to date
+# check that the data is up to date
 def check_refresh_data():
 
+    print('Checking that data is up to date')
     if expired_data():
 
-        # rename data file
+        # rename data file to a temp for safety
         if rename_file(config.DATA_FILE_STR, config.OLD_FILE_STR):
             # the file rename succeeded
             pass
@@ -24,7 +25,7 @@ def check_refresh_data():
             # delete the old data so we don't get an overwrite problem
             delete_file(config.DATA_FILE_STR)
 
-        # try to get an updated copy of the data
+        # try to get an updated copy of the data and store it
         if refresh_data(config.DATA_URL_STR, config.DATA_FILE_STR):
             # safe to delete the old data file
             delete_file(config.OLD_FILE_STR)
@@ -55,11 +56,11 @@ def expired_data():
 
     # check last update datetime of current data file
     config.UPDATE_DATETIME_STR = get_last_file_update()
-    last_updatetime_obj = convert_datetime_str_to_obj(config.UPDATE_DATETIME_STR)
+    last_updatetime_obj = convert_datetime_str_to_obj(config.UPDATE_DATETIME_STR, 'datetime')
 
     # get latest update datetime of owid data
     owid_updatetime = get_update_time_fm_owid()
-    owid_updatetime_obj = convert_datetime_str_to_obj(owid_updatetime)
+    owid_updatetime_obj = convert_datetime_str_to_obj(owid_updatetime, 'datetime')
 
     # calculate if data in need of update
     if owid_updatetime_obj > last_updatetime_obj:  # we should reload the data file

@@ -6,7 +6,9 @@ import numpy as np
 # return a json containing key:value = date_string:tuple,
 # format = {'date_string': (case_mean, case_std, death_mean, death_std)}
 
-
+##################################################
+# need to weight the country numbers by population
+##################################################
 def get_case_death_mean_std(this_data, these_keys, these_dates):
 
     date_obj = dict()
@@ -27,9 +29,12 @@ def get_case_death_mean_std(this_data, these_keys, these_dates):
                 if obj_date == this_data[country]['data'][date_data]['date']:
 
                     if res_list[0] in this_data[country]['data'][date_data]:
+                        #####################################
                         case_list.append(
                             this_data[country]['data'][date_data][res_list[0]])
+
                     if res_list[1] in this_data[country]['data'][date_data]:
+                        #####################################
                         death_list.append(
                             this_data[country]['data'][date_data][res_list[1]])
         #print("case_list =", case_list)
