@@ -6,7 +6,7 @@ import os
 import requests
 import config, modify
 
-from datetime import date, datetime
+from datetime import datetime
 
 # convert some of the iso_codes to 3 char codes
 def convert_owid_data(this_data):
@@ -162,7 +162,11 @@ def main():
 
     #import config, modify # need to fix the path for this
 
+    #from datetime import datetime
+
     dtstr = "2021-04-04T08:02:44Z"
+    #dtstr = "blah-04-04T08:02:44Z"  # bad dateime string
+
 
     print("datetime =", convert_datetime_str_to_obj(dtstr, 'datetime'))
 

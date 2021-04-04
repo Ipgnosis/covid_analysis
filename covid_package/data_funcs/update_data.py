@@ -9,7 +9,7 @@ from covid_package.libs.aggregate_data import fetch_latest_data_date
 from covid_package.data_funcs.store_data import read_json_data, write_json_data, delete_file, rename_file, refresh_data, convert_owid_data, get_last_file_update, convert_datetime_str_to_obj
 
 
-# check that the data is up to date
+# check that the data is up to date; if not, refresh data from github
 def check_refresh_data():
 
     print('Checking that data is up to date')
@@ -44,8 +44,6 @@ def check_refresh_data():
         return True
 
 # check latest data to see if expired
-
-
 def expired_data():
 
     # uncomment this for local testing
@@ -55,10 +53,10 @@ def expired_data():
     # latest data update was 2021-04-02T09:11:58Z
 
     # check last update datetime of current data file
-    config.UPDATE_DATETIME_STR = get_last_file_update()
+    config.UPDATE_DATETIME_STR = get_last_file_update() # set the global to the datetime in the update-record
     last_updatetime_obj = convert_datetime_str_to_obj(config.UPDATE_DATETIME_STR, 'datetime')
 
-    # get latest update datetime of owid data
+    # get latest update datetime of owid data from github
     owid_updatetime = get_update_time_fm_owid()
     owid_updatetime_obj = convert_datetime_str_to_obj(owid_updatetime, 'datetime')
 
@@ -75,17 +73,16 @@ def expired_data():
 
 
 
-# takes a github page url and scrapes a file update time string
+# takes a github page url and scrapes the update time string
 # returns a datetime string
 # see https://www.geeksforgeeks.org/implementing-web-scraping-python-beautiful-soup/
 # this is very brittle...
-
 def get_update_time_fm_owid():
 
     # define some brittle values
     page_url = "https://github.com/owid/covid-19-data/tree/master/public/data"
     this_href = "/owid/covid-19-data/blob/master/public/data/owid-covid-data.json"
-    class_descr = 'Box-row Box-row--focus-gray py-2 d-flex position-relative js-navigation-item'
+    class_descr = "Box-row Box-row--focus-gray py-2 d-flex position-relative js-navigation-item"
 
     # get the page content
     req = requests.get(page_url)
@@ -108,13 +105,13 @@ def get_update_time_fm_owid():
     # locate the user-defined tag 'time-ago'
     timeago = target_div.find('time-ago')
 
-    # grab the string value in 'datetime'
+    # grab the string value in the 'datetime' tag
     updatetime_str = timeago.get('datetime')
 
-    # debug output
-    #print("get_update_time_fm_owid: updatetime_str = ", updatetime_str)
-
-    return updatetime_str
+    if convert_datetime_str_to_obj(updatetime_str, 'datetime'):
+        return updatetime_str
+    else:
+        return False # this will signal that the bs4 scraping has broken
 
 
 # test function

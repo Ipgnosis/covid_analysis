@@ -10,7 +10,7 @@ update_file_name = 'update-record.json'
 
 config.CURRENT_DIR_STR = os.path.abspath('')
 config.DATA_URL_STR = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.json"
-config.UPDATE_DATETIME_STR = "2020-01-01T10:00:00Z"
+config.UPDATE_DATETIME_STR = "2020-01-01T10:00:00Z"  # this is just a dummy to depict the format: gets reset every program run
 config.DATA_FILE_STR = os.path.join(config.CURRENT_DIR_STR, 'data', data_file_name)
 config.OLD_FILE_STR = os.path.join(config.CURRENT_DIR_STR, 'data', old_data_file_name)
 config.UPDATE_FILE_STR = os.path.join(config.CURRENT_DIR_STR, 'data', update_file_name)
