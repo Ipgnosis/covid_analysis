@@ -6,41 +6,61 @@ import numpy as np
 # return a json containing key:value = date_string:tuple,
 # format = {'date_string': (case_mean, case_std, death_mean, death_std)}
 
-##################################################
-# need to weight the country numbers by population
-##################################################
-def get_case_death_mean_std(this_data, these_keys, these_dates):
+##############################################################
+# need to weight the country _per_million numbers by population
+##############################################################
+def get_case_death_mean_std(this_data, these_keys, these_dates, res_list):
 
     date_obj = dict()
 
-    res_list = ["new_cases_per_million", "new_deaths_per_million"]
+    #res_list = ["new_cases", "new_deaths"]
+    #global_pop = this_data['OWID_WRL']['population']
+    #global_new_cases = this_data['OWID_WRL']['new_cases']
 
     # a bunch of json manipulation here
-
+    #for this_date in these_dates:
     for this_date in range(len(these_dates)):
+        #obj_date = this
         obj_date = these_dates[this_date]
         case_list = []
         death_list = []
+
+        global_new_cases_pm = this_data['WRL']['data'][date_data][res_list[0]]
+        global_new_deaths_pm = this_data['WRL']['data'][date_data][res_list[1]]
+
+
         for key in range(len(these_keys)):
             country = these_keys[key]
             for date_data in range(len(this_data[country]['data'])):
-                #print("date_data:", this_data[country]['data'][date_data])
-                #print("obj_date =", obj_date)
                 if obj_date == this_data[country]['data'][date_data]['date']:
 
-                    if res_list[0] in this_data[country]['data'][date_data]:
-                        #####################################
-                        case_list.append(
-                            this_data[country]['data'][date_data][res_list[0]])
 
-                    if res_list[1] in this_data[country]['data'][date_data]:
-                        #####################################
-                        death_list.append(
-                            this_data[country]['data'][date_data][res_list[1]])
+                        if res_list[0] in this_data[country]['data'][date_data]:
+                            #print("iso = {}, new cases = {}".format(country, this_data[country]['data'][date_data][res_list[0]]))
+
+                            case_list.append(
+                                this_data[country]['data'][date_data][res_list[0]])
+
+                        if res_list[1] in this_data[country]['data'][date_data]:
+                            #print("iso = {}, new deaths = {}".format(country, this_data[country]['data'][date_data][res_list[1]]))
+
+                            death_list.append(
+                                this_data[country]['data'][date_data][res_list[1]])
+
+
         #print("case_list =", case_list)
         #print("death_list = ", death_list)
 
+        print("numpy.sum(case_list) = ", np.sum(case_list))
+        print("numpy.sum(death_list) = ", np.sum(death_list))
+
         if len(case_list) > 0 and len(death_list) > 0:
+            case_sum = np.sum(case_list)
+            death_sum = np.sum(death_list)
+            daily_case_avg_per_m = case_sum / global_pop * 1000000
+
+
+
             case_mean = np.mean(case_list)
             case_std = np.std(case_list)
             death_mean = np.mean(death_list)
@@ -51,7 +71,13 @@ def get_case_death_mean_std(this_data, these_keys, these_dates):
             death_mean = 0
             death_std = 0
 
-        date_obj[obj_date] = (case_mean, case_std, death_mean, death_std)
+        #date_obj[obj_date] = (case_mean, case_std, death_mean, death_std)
+        date_obj[obj_date] = {
+            'case_mean': case_mean,
+            'case_std': case_std,
+            'death_mean': death_mean,
+            'death_std': death_std
+        }
 
     return date_obj
 

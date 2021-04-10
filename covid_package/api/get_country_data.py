@@ -47,11 +47,14 @@ def get_l2_keys_data(this_data, these_keys, req_keys):
             day_dict = dict()
 
             # traverse the dict of key:vals looking for the required data
+            # for req_key in req_keys: #####################################
             for req_key in range(len(req_keys)):
                 # locate the required data in the dict
+                # if req_key in this_data[iso]['data'][day].keys(): ###################################
                 if req_keys[req_key] in this_data[iso]['data'][day].keys():
                     day_data = True  # we have now found data
                     # write the key:val
+                    # day_dict[req_key] = this_data[iso]['data'][day][req_key] #################################
                     day_dict[req_keys[req_key]
                              ] = this_data[iso]['data'][day][req_keys[req_key]]
 

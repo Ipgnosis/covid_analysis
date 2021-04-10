@@ -8,14 +8,35 @@ import config, modify
 
 from datetime import datetime
 
-# convert some of the iso_codes to 3 char codes
+# convert the 'OWID_' iso_codes to 3 char codes
 def convert_owid_data(this_data):
+
+    #OWID_AFR
+    #OWID_ASI
+    #OWID_EUN
+    #OWID_EUR
+    #OWID_INT
+    ###OWID_KOS###
+    #OWID_NAM
+    #OWID_OCE
+    #OWID_SAM
+    ###OWID_WRL###
+    """
+    owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_INT', 'OWID_KOS', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM', 'OWID_WRL']
+
+    for i in range(len(owid_list)):
+        print(owid_list[i][5:])
+    """
+
+    # change the iso_code for International, for consistency
+    this_data['INT'] = this_data['OWID_INT']
+    this_data.pop('OWID_INT', None)
 
     # change the iso_code for Kosovo, for consistency
     this_data['KOS'] = this_data['OWID_KOS']
     this_data.pop('OWID_KOS', None)
 
-    # change the iso_code for World, for consistency
+    # change the iso_code for International, for consistency
     this_data['WRL'] = this_data['OWID_WRL']
     this_data.pop('OWID_WRL', None)
 
