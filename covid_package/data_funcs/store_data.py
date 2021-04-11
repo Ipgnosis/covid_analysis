@@ -42,6 +42,17 @@ def convert_owid_data(this_data):
 
     return this_data
 
+# output the contents of update-record.json
+def print_update_record():
+
+    updata = read_json_data(config.UPDATE_FILE_STR)
+
+    print("Last update =", updata["last_update"])
+    print("Earliest update =", updata["earliest_update"])
+
+    for u in range(len(updata["update_list"])):
+        print("Update ", u + 1, ":", updata["update_list"][u])
+
 
 # read a json data file
 def read_json_data(fname):
@@ -180,14 +191,15 @@ def main():
     #import sys
     #import json
     #from pathlib import Path
-
-    #import config, modify # need to fix the path for this
+    #from c://users//ipgnosis// import .../config, .../modify # need to fix the path for this
 
     #from datetime import datetime
 
     dtstr = "2021-04-04T08:02:44Z"
     #dtstr = "blah-04-04T08:02:44Z"  # bad dateime string
 
+
+    print_update_record()
 
     print("datetime =", convert_datetime_str_to_obj(dtstr, 'datetime'))
 

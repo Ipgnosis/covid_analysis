@@ -41,6 +41,7 @@ def check_refresh_data():
         return True
     else:
         # the data wasn't expired, so we are good
+        print("Data file up to date")
         return True
 
 # check latest data to see if expired
@@ -68,7 +69,7 @@ def expired_data():
         return True
 
     else:
-        print("Data file up to date")
+        # Data file up to date
         return False
 
 
