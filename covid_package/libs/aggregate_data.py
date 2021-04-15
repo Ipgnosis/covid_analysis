@@ -44,15 +44,13 @@ def fetch_date_list(this_data, country_keys):
     date_list = []
 
     for this_country in country_keys:
-        for date in range(len(this_data[this_country]['data'])):
-            this_date = this_data[this_country]['data'][date]['date']
+        for day_obj in this_data[this_country]['data']:
+            this_date = day_obj['date']
             if this_date not in set(date_list):
                 date_list.append(this_date)
 
-    date_list_sorted = sorted(date_list, key=lambda x: x)
-
-    return date_list_sorted
-
+    sorted_dates = sorted(date_list, key=lambda x: x)
+    return sorted_dates
 
 # return the date of the latest data
 
@@ -60,10 +58,10 @@ def fetch_latest_data_date(this_data, country_keys):
 
     latest_date = "2020-01-01"
 
-    for this_country in range(len(country_keys)):
-        last_date = this_data[country_keys[this_country]]["data"][-1]["date"]
-        if last_date > latest_date:
-            latest_date = last_date
+    #for this_country in range(len(country_keys)):
+    for this_country in country_keys:
+        if latest_date < this_data[this_country]["data"][-1]["date"]:
+            latest_date = this_data[this_country]["data"][-1]["date"]
 
     return latest_date
 
@@ -93,10 +91,34 @@ def get_country_summary(this_data, this_country):
 
 def main():
 
+    import os
     import sys
 
-    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis")
+    proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
 
+    sys.path.append(proj_loc)
+
+    from pathlib import Path
+    from covid_package.data_funcs.store_data import read_json_data
+    from covid_package.libs.valid_keys import fetch_l0_keys
+
+    # get data
+
+    FILE_NAME = 'owid-covid-data.json'
+    file_path = os.path.join(proj_loc, 'data', FILE_NAME)
+    DATA_FILE = Path(file_path)
+
+    # read the data file from the data dir
+    data = read_json_data(DATA_FILE)
+
+    print("Testing...")
+
+    key_list = fetch_l0_keys(data)
+
+    print("Latest data is:", fetch_latest_data_date(data, key_list))
+
+
+    """
     agg_test_data = {
         "CAN": {"median_age": 41.4,
                 "data": [{"date": "2020-11-01", "new_deaths": 1}, {"date": "2020-11-02", "new_deaths": 2}, {"date": "2020-11-03", "new_deaths": 3}]
@@ -148,7 +170,7 @@ def main():
         agg_test_data, "BEL", "new_cases_per_million"))
     print("'CAN': new_deaths (ans = 6)", aggregate_second_level_data(
         agg_test_data, "CAN", "new_deaths"))
-
+    """
 
 # stand alone test run
 if __name__ == "__main__":

@@ -6,39 +6,26 @@ import os
 import requests
 import config, modify
 
-from datetime import datetime
+#from datetime import datetime
 
-# convert the 'OWID_' iso_codes to 3 char codes
+from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
+
+# convert the 'OWID_' iso_codes to 3 char codes or remove
 def convert_owid_data(this_data):
 
-    #OWID_AFR
-    #OWID_ASI
-    #OWID_EUN
-    #OWID_EUR
-    #OWID_INT
-    ###OWID_KOS###
-    #OWID_NAM
-    #OWID_OCE
-    #OWID_SAM
-    ###OWID_WRL###
-    """
-    owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_INT', 'OWID_KOS', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM', 'OWID_WRL']
+    owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
 
-    for i in range(len(owid_list)):
-        print(owid_list[i][5:])
-    """
+    # clear out the unneeded 'OWID_' entries
+    [this_data.pop(i) for i in owid_list]
 
     # change the iso_code for International, for consistency
-    this_data['INT'] = this_data['OWID_INT']
-    this_data.pop('OWID_INT', None)
+    this_data['INT'] = this_data.pop('OWID_INT')
 
     # change the iso_code for Kosovo, for consistency
-    this_data['KOS'] = this_data['OWID_KOS']
-    this_data.pop('OWID_KOS', None)
+    this_data['KOS'] = this_data.pop('OWID_KOS')
 
     # change the iso_code for International, for consistency
-    this_data['WRL'] = this_data['OWID_WRL']
-    this_data.pop('OWID_WRL', None)
+    this_data['WRL'] = this_data.pop('OWID_WRL')
 
     return this_data
 
@@ -50,8 +37,8 @@ def print_update_record():
     print("Last update =", updata["last_update"])
     print("Earliest update =", updata["earliest_update"])
 
-    for u in range(len(updata["update_list"])):
-        print("Update ", u + 1, ":", updata["update_list"][u])
+    for u, val in enumerate(updata["update_list"]):
+        print("Update", u + 1, "=", val)
 
 
 # read a json data file
@@ -138,11 +125,11 @@ def update_the_update_file():
     # get the update file
     update_data = read_json_data(config.UPDATE_FILE_STR)
 
-    # push the last update onto the historical record
-    update_data['update_list'].append(update_data['last_update'])
-
     # store the new update datetime
     update_data['last_update'] = config.UPDATE_DATETIME_STR
+    # also push this update onto the historical record - slightly redundant but
+    # this is a change as of 4/14/21 to enable easier analysis of the update times
+    update_data['update_list'].append(config.UPDATE_DATETIME_STR)
 
     # keep a record of the earliest time that the file was updated
     # we'll need this later, but building the record for now
@@ -161,7 +148,7 @@ def update_the_update_file():
     else:
         print("Error updating UPDATE_FILE")
 
-
+"""
 # do the datetime jiggery-pokery
 def convert_datetime_str_to_obj(datetime_str, resolution):
 
@@ -181,20 +168,26 @@ def convert_datetime_str_to_obj(datetime_str, resolution):
         return False # incorrect parameter
 
     return return_obj
-
+"""
 
 # test function
 
 def main():
 
     #import os
-    #import sys
+    import sys
     #import json
     #from pathlib import Path
-    #from c://users//ipgnosis// import .../config, .../modify # need to fix the path for this
 
-    #from datetime import datetime
+    proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
 
+    sys.path.append(proj_loc)
+
+    import config, modify
+
+    get_last_file_update()
+
+    """
     dtstr = "2021-04-04T08:02:44Z"
     #dtstr = "blah-04-04T08:02:44Z"  # bad dateime string
 
@@ -206,6 +199,7 @@ def main():
     print("date =", convert_datetime_str_to_obj(dtstr, 'date'))
 
     print("time =", convert_datetime_str_to_obj(dtstr, 'time'))
+    """
 
 # stand alone test run
 # don't forget to flip the import statements

@@ -9,8 +9,12 @@ def fetch_l0_keys(this_data):
 
     key_list = []
 
+    # note that the OWID_ exclusion has been replaced by libs/convert_owid_data
+    # therefore return list(this_data.keys()) would work
+    # however, when run stand-alone, those keys still exist in the raw data
+
     for key in this_data.keys():
-        if str(key)[0:3] != "OWI":
+        if str(key)[0:5] != "OWID_":
             key_list.append(key)
 
     return key_list
