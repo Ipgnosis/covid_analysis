@@ -29,10 +29,10 @@ def scatter_plot(these_labels, these_results, these_params):
     this_data = plt.scatter(
         these_results['x_axis'], # the x axis values
         these_results['y_axis'], # the y axis values
-        #s = these_params['area'], # the area
+        s = these_params['area'], # the area
         #c = these_params['colors'], # colors
         #alpha = these_params['alpha'], # transparency of plot markers
-        label = these_results['label']
+        label = these_results['legend_label']
     )
 
     # set up the labels
