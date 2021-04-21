@@ -6,20 +6,24 @@ import os
 import requests
 import config, modify
 
-#from datetime import datetime
-
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
 
 # convert the 'OWID_' iso_codes to 3 char codes or remove
 def convert_owid_data(this_data):
 
-    owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
+    # the list(s) of OWID_ data that we are going to remove for consistency
+    # don't pop the INT data
+    #owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
+    # pop the INT data
+    owid_list = ['OWID_INT', 'OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
 
     # clear out the unneeded 'OWID_' entries
     [this_data.pop(i) for i in owid_list]
 
     # change the iso_code for International, for consistency
-    this_data['INT'] = this_data.pop('OWID_INT')
+    ### this data causes bugs since it is missing key resources, e.g. population ###
+    ### exclusion may cause minor inconsistencies ###
+    #this_data['INT'] = this_data.pop('OWID_INT')
 
     # change the iso_code for Kosovo, for consistency
     this_data['KOS'] = this_data.pop('OWID_KOS')
@@ -147,28 +151,6 @@ def update_the_update_file():
         pass
     else:
         print("Error updating UPDATE_FILE")
-
-"""
-# do the datetime jiggery-pokery
-def convert_datetime_str_to_obj(datetime_str, resolution):
-
-    github_format = "%Y-%m-%dT%H:%M:%S%z"
-
-    datetime_obj = datetime.strptime(datetime_str, github_format)
-
-    if resolution == 'datetime':
-            return_obj = datetime_obj
-
-    elif resolution == 'date':
-            return_obj = datetime.date(datetime_obj)
-
-    elif resolution == 'time':
-            return_obj = datetime.time(datetime_obj)
-    else:
-        return False # incorrect parameter
-
-    return return_obj
-"""
 
 # test function
 

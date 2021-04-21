@@ -1,85 +1,29 @@
 # takes output from get_l2_keys_data (params = ['new_cases_per_million', 'new_deaths_per_million'])
-# outputs a global mean and standard deviation for each date
+# outputs global standard deviation for that day
 
 import numpy as np
 
-# return a json containing key:value = date_string:tuple,
-# format = {'date_string': (case_mean, case_std, death_mean, death_std)}
+# calculating the standard deviations for cases and deaths for a given date
+# return a tuple with values for a given date: (case_std, death_std)
 
-##############################################################
-# need to weight the country _per_million numbers by population
-##############################################################
-def get_case_death_mean_std(this_data, these_keys, these_dates, res_list):
+def get_case_death_stdev(day_dict):
 
-    date_obj = dict()
+    case_list_pm = []
+    death_list_pm = []
 
-    #res_list = ["new_cases", "new_deaths"]
-    #global_pop = this_data['OWID_WRL']['population']
-    #global_new_cases = this_data['OWID_WRL']['new_cases']
+    # iterate across the day_dict:
+    for country in day_dict:
 
-    # a bunch of json manipulation here
-    #for this_date in these_dates:
-    for this_date in range(len(these_dates)):
-        #obj_date = this
-        obj_date = these_dates[this_date]
-        case_list = []
-        death_list = []
+        case_list_pm.append(day_dict[country][0])
+        death_list_pm.append(day_dict[country][1])
 
-        global_new_cases_pm = this_data['WRL']['data'][date_data][res_list[0]]
-        global_new_deaths_pm = this_data['WRL']['data'][date_data][res_list[1]]
+    case_pm_std = np.std(case_list_pm)
+    death_pm_std = np.std(death_list_pm)
 
+    #print("gcdstd: case_std = ", case_pm_std)
+    #print("gcdstd: death_std = ", death_pm_std)
 
-        for key in range(len(these_keys)):
-            country = these_keys[key]
-            for date_data in range(len(this_data[country]['data'])):
-                if obj_date == this_data[country]['data'][date_data]['date']:
-
-
-                        if res_list[0] in this_data[country]['data'][date_data]:
-                            #print("iso = {}, new cases = {}".format(country, this_data[country]['data'][date_data][res_list[0]]))
-
-                            case_list.append(
-                                this_data[country]['data'][date_data][res_list[0]])
-
-                        if res_list[1] in this_data[country]['data'][date_data]:
-                            #print("iso = {}, new deaths = {}".format(country, this_data[country]['data'][date_data][res_list[1]]))
-
-                            death_list.append(
-                                this_data[country]['data'][date_data][res_list[1]])
-
-
-        #print("case_list =", case_list)
-        #print("death_list = ", death_list)
-
-        print("numpy.sum(case_list) = ", np.sum(case_list))
-        print("numpy.sum(death_list) = ", np.sum(death_list))
-
-        if len(case_list) > 0 and len(death_list) > 0:
-            case_sum = np.sum(case_list)
-            death_sum = np.sum(death_list)
-            daily_case_avg_per_m = case_sum / global_pop * 1000000
-
-
-
-            case_mean = np.mean(case_list)
-            case_std = np.std(case_list)
-            death_mean = np.mean(death_list)
-            death_std = np.std(death_list)
-        else:
-            case_mean = 0
-            case_std = 0
-            death_mean = 0
-            death_std = 0
-
-        #date_obj[obj_date] = (case_mean, case_std, death_mean, death_std)
-        date_obj[obj_date] = {
-            'case_mean': case_mean,
-            'case_std': case_std,
-            'death_mean': death_mean,
-            'death_std': death_std
-        }
-
-    return date_obj
+    return (round(case_pm_std, 3), round(death_pm_std, 3))
 
 
 def main():
