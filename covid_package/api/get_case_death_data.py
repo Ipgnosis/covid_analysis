@@ -58,14 +58,14 @@ def main():
 
     agg_country_keys = ["AFG", "BEL", "CAN", "VAT"]
 
-    all_dates = ["2020-09-01", "2020-09-02", "2020-09-03"]
+    #all_dates = ["2020-09-01", "2020-09-02", "2020-09-03"]
 
     print("\nTesting get_case_death_mean_std.py:")
 
     #print("all_dates =", all_dates)
 
-    resuwt = get_case_death_mean_std(
-        agg_test_data, agg_country_keys, all_dates)
+    # fix this                         VVVV
+    resuwt = get_case_death_stdev(agg_test_data)
 
     print(resuwt['2020-09-02'])
 
