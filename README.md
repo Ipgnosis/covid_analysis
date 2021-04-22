@@ -1,6 +1,6 @@
 # covid_analysis
 
-This is a work in progress...
+*This is a work in progress...*
 
 A Jupyter Notebook for covid analysis.
 
