@@ -46,3 +46,23 @@ def scatter_plot(these_labels, these_results, these_params):
     # display the plot
     plt.legend(handles = [this_data])
     plt.show()
+
+
+def line_plot(these_labels, these_results, these_params):
+
+    # empty canvas
+    fig = plt.figure()
+
+    # add axes
+    #ax = fig.add_axes(these_params['axis_settings'])
+    ax = fig.add_axes([0, 0, 1, 1])
+
+    case_mean = ax.plot(these_results['x_axis'], these_results['y_axis'])
+    iso_1 = ax.plot(these_results['x_axis'], these_results['y1_axis'])
+
+    # set labels
+    ax.set_title(these_labels['chart_title'])
+    ax.set_xlabel(these_labels['x_axis_label'])
+    ax.set_ylabel(these_labels['y_axis_label'])
+
+    plt.show()
