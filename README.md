@@ -2,7 +2,7 @@
 
 *This is a work in progress...*
 
-A Jupyter Notebook for covid analysis.
+**A Jupyter Notebook for covid analysis.**
 
 Like many others, I have been fascinated (not to mention horrified) by the Covid-19 pandemic.  What I knew about virology and epidemiology before 2020 could be written on a postage stamp, but now I am as up to speed as any layperson on these topics.  But, I have many (many) questions for which I am unable to find answers.
 
