@@ -2,6 +2,7 @@
 # written by Russell on 3/30/21
 
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 # double matplotlib graph of the results
 def subplot_share_axis(these_labels, these_results):
@@ -57,12 +58,29 @@ def line_plot(these_labels, these_results, these_params):
     #ax = fig.add_axes(these_params['axis_settings'])
     ax = fig.add_axes([0, 0, 1, 1])
 
-    case_mean = ax.plot(these_results['x_axis'], these_results['y_axis'])
-    iso_1 = ax.plot(these_results['x_axis'], these_results['y1_axis'])
+    # plot 2 lines with common x axis
+    ax.plot(these_results['x_axis'], these_results['y_axis'], 'b-')
+    ax.plot(these_results['x_axis'], these_results['y1_axis'], 'r-')
+
+    # Text in the x axis will be displayed in 'YYYY-mm-dd' format.
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+
+    # major ticks every 3 months.
+    fmt_qtr_year = mdates.MonthLocator(interval=3)
+    ax.xaxis.set_major_locator(fmt_qtr_year)
+
+    # minor ticks every month.
+    fmt_month = mdates.MonthLocator()
+    ax.xaxis.set_minor_locator(fmt_month)
+
+    # Rotates and right aligns the x labels, and moves the bottom of the
+    # axes up to make room for them.
+    fig.autofmt_xdate()
 
     # set labels
     ax.set_title(these_labels['chart_title'])
     ax.set_xlabel(these_labels['x_axis_label'])
     ax.set_ylabel(these_labels['y_axis_label'])
+    ax.legend(labels = (these_labels['legend_1'], these_labels['legend_2']), loc = 0)
 
     plt.show()
