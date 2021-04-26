@@ -48,7 +48,7 @@ def main():
     #import json
     #from pathlib import Path
 
-    #from datetime import datetime
+    #from datetime import date
 
     proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
 
@@ -61,8 +61,9 @@ def main():
     dtstr = "2021-04-04T08:02:44Z"
     #dtstr = "blah-04-04T08:02:44Z"  # bad dateime string
 
+    print("time now =", date_time)
 
-    print_update_record()
+    #print_update_record()
 
     print("datetime =", convert_datetime_str_to_obj(dtstr, 'datetime'))
 

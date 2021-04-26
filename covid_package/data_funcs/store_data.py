@@ -25,6 +25,9 @@ def convert_owid_data(this_data):
     ### exclusion may cause minor inconsistencies ###
     #this_data['INT'] = this_data.pop('OWID_INT')
 
+    # change the iso_code for Northern Cyprus, for consistency
+    this_data['CYN'] = this_data.pop('OWID_CYN')
+
     # change the iso_code for Kosovo, for consistency
     this_data['KOS'] = this_data.pop('OWID_KOS')
 

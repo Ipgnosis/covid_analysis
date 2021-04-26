@@ -1,21 +1,28 @@
+import os
+import sys
+import json
 
-from covid_package.data_funcs.store_data import write_json_data
+import config, modify
+
+from covid_package.data_funcs.store_data import write_json_data, rename_file
 
 # create update file
 
-def create_update_file(update_file):
+def create_update_file(update_file): # don't run this, it may delete all the current data
 
-    #from covid_package.data_funcs.store_data import write_json_data
-
-    # first data update was 2021-04-01T14:40:33Z
-    # latest data update was 2021-04-02T09:11:58Z
+    # do we need to make a backup of an existing update file?
+    if os.path.exists(config.UPDATE_FILE_STR):
+        old_update_file_name = 'update-record-old.json'
+        old_update_file_str = os.path.join(config.CURRENT_DIR_STR, 'data', old_update_file_name)
+        rename_file(config.COUNTRY_FILE_STR, old_update_file_str)
 
     first_update = "2021-04-01T14:40:33Z"
-    #second_update = "2021-04-02T09:11:58Z"
+    second_update = "2021-04-02T09:11:58Z"
 
     update_json = {
         'last_update': first_update,
-        'update_list': []
+        'earliest_update': second_update,
+        'update_list': [first_update, second_update]
     }
 
     write_json_data(update_file, update_json)
@@ -27,10 +34,6 @@ def create_update_file(update_file):
 
 def main():
 
-    import os
-    import sys
-    import json
-
     from pathlib import Path
 
     CURRENT_DIR = os.path.abspath('')
@@ -41,10 +44,11 @@ def main():
     sys.path.append(package_path)
 
     update_file = 'update-data.json'
-    UPDATE_DATA = Path(os.path.join(data_path, update_file))
+    update_data = Path(os.path.join(data_path, update_file))
 
     # write the update data file
-    create_update_file(UPDATE_DATA)
+    print(update_data) # gets rid of 'unused variable' problem
+    #create_update_file(update_data)  # don't run this or risk deleting data
 
 # stand alone test run
 if __name__ == "__main__":
