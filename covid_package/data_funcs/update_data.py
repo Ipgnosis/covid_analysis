@@ -74,51 +74,19 @@ def expired_data():
         return False
 
 
-
 # fetches the update time string from Github
-# this replaces a very brittle screen scrape approach using bs4
+# this replaces a brittle screen scrape approach using bs4
 # returns a validated datetime string
 def get_update_time_fm_owid():
 
-    ### delete this garbage once the server starts responding ###
-
-    """
-    # define some brittle values
-    page_url = "https://github.com/owid/covid-19-data/tree/master/public/data"
-    this_href = "/owid/covid-19-data/blob/master/public/data/owid-covid-data.json"
-    class_descr = "Box-row Box-row--focus-gray py-2 d-flex position-relative js-navigation-item"
-
-    # get the page content
-    req = requests.get(page_url)
-
-    ### let the beautifulsoup jiggery-pokery commence ###
-    # html parsing
-    page_soup = bSoup(req.content, 'html5lib')
-
-    # get the list of divs to search
-    code_rows = page_soup.find_all('div', attrs = {'class': class_descr})
-
-    # search the divs list for a div containing this_href
-    for row in code_rows:
-        if row.find_all(href = this_href):
-            target_row = row
-
-    # find the correct div
-    target_div = target_row.find('div', attrs = {'class': 'color-text-tertiary text-right'})
-
-    # locate the user-defined tag 'time-ago'
-    timeago = target_div.find('time-ago')
-
-    # grab the string value in the 'datetime' tag
-    updatetime_str = timeago.get('datetime')
-    """
-    ####################################################################################################################################
     timestamp_url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data-last-updated-timestamp.txt"
 
     # get the timestamp
     timestamp_data = requests.get(timestamp_url)
 
-    updatetime_str = timestamp_data.text[:-1] + "Z" # strip the new line from the timestamp and add the timezone
+    # strip the new line from the timestamp and add the timezone
+    # ensures the right format for convert_datetime_str_to_obj
+    updatetime_str = timestamp_data.text[:-1] + "Z"
 
     # validate and return the timestamp
     # note we are returning the string, not the object in order not to break later logic
