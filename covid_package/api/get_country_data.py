@@ -77,32 +77,34 @@ def get_l2_date_data(this_data, these_keys, these_dates, req_res):
 
     return_dict = dict()
 
+    elems = len(req_res)
+
     for this_date in these_dates:
         date_dict = dict()
 
         for i, iso in enumerate(these_keys):
-            country_list = list()
-            got_data = False
+
+
+            # initialize teh country list to the number of the required resources
+            country_list = []
+            for e in range(elems):
+                country_list.append(0)
 
             for d, day in enumerate(this_data[iso]['data']):
-                if day['date'] == this_date:
+
+                if this_date == day['date']:
+
                     for r, res in enumerate(req_res):
                         # locate the required data in the day dict
                         if res in day.keys():
-                            got_data = True
+                            #got_data = True
                             # store the req_res value
-                            country_list.append(day[res])
-                        # this 'else' action is to ensure that 0 is recorded if a resource is not found
-                        # note that if a subsequent resource is found, then the list would be out of order
-                        # however, if no resources are found, the 'not got_data' flag will prevent the
-                        # country_list from being written to date_dict
-                        else:
-                            country_list.append(0)
+                            country_list[r] = day[res]
 
-            if got_data: date_dict[iso] = country_list
 
-        if date_dict:
-            return_dict[this_date] = date_dict
+            date_dict[iso] = country_list
+
+        return_dict[this_date] = date_dict
 
     return return_dict
 
