@@ -131,7 +131,7 @@ def main():
     data = convert_owid_data(data)
 
     #key_list = fetch_l0_keys(data)
-    key_list = ['WRL', 'USA']
+    key_list = ['WRL', 'USA', 'JPN', 'GBR']
 
     print("Testing...")
 

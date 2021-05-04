@@ -98,17 +98,23 @@ def rename_file(fromf, tof):
 
 
 # download and save new data file version
-def refresh_data(source_url, data_file):
+def refresh_data(source_url, backup_url, data_file):
 
     # get the json data from github
     try:
         downloaded_data = requests.get(source_url).json()
     except:
-        print("Data cannot be downloaded")
-        return False
+        print("Data cannot be downloaded from Github, trying OWID")
+
+        # Go to backup source
+        try:
+            downloaded_data = requests.get(backup_url).json()
+        except:
+            print("Data cannot be downloaded from OWID")
+            return False
 
     # if we updated the data without error
-    if write_json_data(config.DATA_FILE_STR, downloaded_data):
+    if write_json_data(data_file, downloaded_data):
         update_the_update_file() # update the record of updates
     else:
         return False

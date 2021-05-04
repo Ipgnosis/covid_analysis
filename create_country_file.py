@@ -35,6 +35,8 @@ def no_tr_so(iso):
     else:
         return None
 
+
+# is this very interesting??
 def e_w_hemis(iso):
 
     east = []
@@ -49,8 +51,13 @@ def e_w_hemis(iso):
 
 def nat_area(pop, dens):
 
+    # check_exists returns 0 for pop_density for countries that have no value
+    # avoid the 'divide by zero' error
+    if dens == 0:
+        return 0
 
-    return area
+    # return calculated area in sq. km.
+    return round(pop/dens, 1)
 
 def time_zone(iso):
 
@@ -107,7 +114,7 @@ def create_country_file():
             'location': check_exists(val, 'location', 's'),
             'population': check_exists(val, 'population', 'i'),
             'population_density': check_exists(val, 'population_density', 'f'),
-            'area': nat_area(key),
+            'area': nat_area(check_exists(val, 'population', 'i'), check_exists(val, 'population_density', 'f')),
             'island': islands(key),
             'gdp_per_capita': check_exists(val, 'gdp_per_capita', 'f'),
             'no_tr_so_hemis': no_tr_so(key),

@@ -2,11 +2,12 @@
 
 import config, modify
 import requests
-from bs4 import BeautifulSoup as bSoup
+#from bs4 import BeautifulSoup as bSoup
 
 # comment this out for local testing
 from covid_package.libs.aggregate_data import fetch_latest_data_date
-from covid_package.data_funcs.store_data import read_json_data, write_json_data, delete_file, rename_file, refresh_data, convert_owid_data, get_last_file_update, convert_datetime_str_to_obj
+from covid_package.data_funcs.store_data import read_json_data, write_json_data, delete_file, rename_file, refresh_data, convert_owid_data, get_last_file_update
+from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
 
 
 # check that the data is up to date; if not, refresh data from github
@@ -26,7 +27,7 @@ def check_refresh_data():
             delete_file(config.DATA_FILE_STR)
 
         # try to get an updated copy of the data and store it
-        if refresh_data(config.DATA_URL_STR, config.DATA_FILE_STR):
+        if refresh_data(config.DATA_URL_STR, config.BACKUP_DATA_URL_STR, config.DATA_FILE_STR):
             # safe to delete the old data file
             delete_file(config.OLD_FILE_STR)
             print("Data updated")
@@ -63,7 +64,7 @@ def expired_data():
 
     # calculate if data in need of update
     if owid_updatetime_obj > last_updatetime_obj:  # we should reload the data file
-        print("Expired data file")
+        print("Expired data file: current file = {}, latest update = {}".format(config.UPDATE_DATETIME_STR, owid_updatetime))
         # update the global to reflect the new update time
         config.UPDATE_DATETIME_STR = owid_updatetime
         return True
@@ -74,12 +75,14 @@ def expired_data():
 
 
 
-# takes a github page url and scrapes the update time string
-# returns a datetime string
-# see https://www.geeksforgeeks.org/implementing-web-scraping-python-beautiful-soup/
-# this is very brittle...
+# fetches the update time string from Github
+# this replaces a very brittle screen scrape approach using bs4
+# returns a validated datetime string
 def get_update_time_fm_owid():
 
+    ### delete this garbage once the server starts responding ###
+
+    """
     # define some brittle values
     page_url = "https://github.com/owid/covid-19-data/tree/master/public/data"
     this_href = "/owid/covid-19-data/blob/master/public/data/owid-covid-data.json"
@@ -108,11 +111,22 @@ def get_update_time_fm_owid():
 
     # grab the string value in the 'datetime' tag
     updatetime_str = timeago.get('datetime')
+    """
+    ####################################################################################################################################
+    timestamp_url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data-last-updated-timestamp.txt"
 
+    # get the timestamp
+    timestamp_data = requests.get(timestamp_url)
+
+    updatetime_str = timestamp_data.text[:-1] + "Z" # strip the new line from the timestamp and add the timezone
+
+    # validate and return the timestamp
+    # note we are returning the string, not the object in order not to break later logic
     if convert_datetime_str_to_obj(updatetime_str, 'datetime'):
         return updatetime_str
     else:
-        return False # this will signal that the bs4 scraping has broken
+        print("Error: updatetime_str =", updatetime_str)
+        return False # this will signal that the timestamp fetch has broken
 
 
 # test function
@@ -125,18 +139,21 @@ def main():
 
     from pathlib import Path
 
+
+    proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
+
+    sys.path.append(proj_loc)
+
     import config, modify
 
-    config.CURRENT_DIR_STR = os.path.abspath('')
-    sys.path.append(config.CURRENT_DIR_STR)
-    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package")
 
     from covid_package.libs.aggregate_data import fetch_latest_data_date
     from covid_package.data_funcs.store_data import read_json_data
     from covid_package.libs.valid_keys import fetch_l0_keys
 
     # get data
-
+    get_update_time_fm_owid()
+"""
     if check_refresh_data():
         # read the updated(?) data file from the data dir
         data = read_json_data(config.DATA_FILE_STR)
@@ -146,7 +163,7 @@ def main():
         #country_list = fetch_countries(data)
 
     print("After update:", fetch_latest_data_date(data, key_list))
-
+"""
 # stand alone test run
 # don't forget to flip the import statements
 if __name__ == "__main__":
