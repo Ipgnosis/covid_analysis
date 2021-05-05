@@ -85,7 +85,7 @@ def get_l2_date_data(this_data, these_keys, these_dates, req_res):
         for i, iso in enumerate(these_keys):
 
 
-            # initialize teh country list to the number of the required resources
+            # initialize the country list to the number of the required resources
             country_list = []
             for e in range(elems):
                 country_list.append(0)
