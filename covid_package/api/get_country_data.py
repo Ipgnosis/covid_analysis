@@ -71,7 +71,7 @@ def get_l2_iso_data(this_data, these_keys, req_keys):
 # the level 2 date api
 # req_res is a list of level 2 keys
 # for returns a dict with key = date, values = list of resource values
-# each dict is has a key = iso, value is a tuple containing only the required resources
+# each dict is has a key = iso, value is a list containing only the required resources
 
 def get_l2_date_data(this_data, these_keys, these_dates, req_res):
 

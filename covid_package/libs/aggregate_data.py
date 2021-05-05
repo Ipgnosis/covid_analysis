@@ -38,7 +38,6 @@ def fetch_date_range(this_data, this_country):
 
 # return an ordered list of distinct dates contained in the data
 
-
 def fetch_date_list(this_data, country_keys):
 
     date_list = []
@@ -50,6 +49,7 @@ def fetch_date_list(this_data, country_keys):
                 date_list.append(this_date)
 
     sorted_dates = sorted(date_list, key=lambda x: x)
+
     return sorted_dates
 
 # return the date of the latest data
@@ -77,12 +77,22 @@ def aggregate_second_level_data(this_data, this_country, this_key):
     return round(temp_data, 3)
 
 
+# get the top/bottom N counties and instances of a specific value
+def get_min_max_data(this_data, res_list, enn):
+
+    tops = []
+    bottoms = []
+    bottom_of_top = 0
+    top_of_bottom = 10000000000
+
+    for iso in this_data:
+        for this_day in iso['data']:
+            if res in this_day.keys():
+                if this_day[res] > bottom_of_top:
+                    pass
+
+
 """
-def get_max_data(this_data, max_date, this_country):
-
-    data_list = ["total_cases", "total_deaths"]
-
-
 def get_country_summary(this_data, this_country):
     ###################################################
     pass

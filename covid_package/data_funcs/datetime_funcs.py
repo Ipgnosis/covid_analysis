@@ -34,9 +34,15 @@ def convert_datetime_str_to_obj(datetime_str, resolution):
     else:
         return False # incorrect parameter
 
-    #print(resolution, 'type =', type(return_obj))
-
     return return_obj
+
+
+def date_today():
+
+    now = datetime.now()
+
+
+    return datetime.date(datetime_obj)
 
 
 
