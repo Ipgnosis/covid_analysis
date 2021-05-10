@@ -1,5 +1,7 @@
 # functions to return data from the json structure
 
+from covid_package.api.get_country_data import get_l2_iso_data
+
 # return all data for a specific country
 def fetch_country_data(this_data, this_country):
 
@@ -66,7 +68,7 @@ def fetch_latest_data_date(this_data, country_keys):
     return latest_date
 
 
-# aggregate the values from a specific item in the second level data
+# aggregate the values from a specific country and second level resource
 def aggregate_second_level_data(this_data, this_country, this_key):
 
     temp_data = 0
@@ -78,18 +80,25 @@ def aggregate_second_level_data(this_data, this_country, this_key):
 
 
 # get the top/bottom N counties and instances of a specific value
-def get_min_max_data(this_data, res_list, enn):
+def get_min_max_data(main_data, iso_list, res_list, enn):
 
-    tops = []
-    bottoms = []
-    bottom_of_top = 0
-    top_of_bottom = 10000000000
+    # initialize two dicts of variable length to store the result
+    tops = dict()
+    bottoms = dict()
+    for res in res_list:
+        tops[res] = [0]
+        bottoms[res] = [999999999]
 
-    for iso in this_data:
-        for this_day in iso['data']:
-            if res in this_day.keys():
-                if this_day[res] > bottom_of_top:
-                    pass
+
+    iso_data = get_l2_iso_data(main_data, iso_list, res_list)
+
+    for iso in iso_data:
+        for day in iso:
+            for res in res_list:
+                tops[res].append({iso: day[res]})
+                bottoms[res].append({iso: day[res]})
+                pass
+
 
 
 """
@@ -111,6 +120,7 @@ def main():
     from pathlib import Path
     from covid_package.data_funcs.store_data import read_json_data
     from covid_package.libs.valid_keys import fetch_l0_keys
+    from covid_package.api.get_country_data import get_l2_iso_data
 
     # get data
 

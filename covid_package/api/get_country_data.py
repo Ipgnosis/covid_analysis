@@ -147,9 +147,9 @@ def main():
 
     #print(get_l1_data(data, key_list, req_l1_data))
 
-    #print(get_l2_keys_data(data, key_list, req_l2_data))
+    print(get_l2_iso_data(data, key_list, resources))
 
-    print(get_l2_date_data(data, key_list, date_list, resources))
+    #print(get_l2_date_data(data, key_list, date_list, resources))
 
 # stand alone test run
 if __name__ == "__main__":
