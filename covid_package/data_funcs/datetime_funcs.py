@@ -37,15 +37,6 @@ def convert_datetime_str_to_obj(datetime_str, resolution):
     return return_obj
 
 
-def date_today():
-
-    now = datetime.now()
-
-
-    return datetime.date(datetime_obj)
-
-
-
 # test function
 
 def main():
@@ -62,7 +53,7 @@ def main():
 
     import config, modify
 
-    from store_data import print_update_record
+    from covid_package.data_funcs.store_data import print_update_record
 
     dtstr = "2021-04-04T08:02:44Z"
     #dtstr = "blah-04-04T08:02:44Z"  # bad dateime string

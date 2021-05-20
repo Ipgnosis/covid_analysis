@@ -12,18 +12,18 @@ from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
 def convert_owid_data(this_data):
 
     # the list(s) of OWID_ data that we are going to remove for consistency
+
     # don't pop the INT data
     #owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
+
+    # change the iso_code for International, for consistency
+    ### this data causes bugs since it is missing key resources, e.g. population ###
+    ### exclusion may cause minor inconsistencies ###
     # pop the INT data
     owid_list = ['OWID_INT', 'OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
 
     # clear out the unneeded 'OWID_' entries
     [this_data.pop(i) for i in owid_list]
-
-    # change the iso_code for International, for consistency
-    ### this data causes bugs since it is missing key resources, e.g. population ###
-    ### exclusion may cause minor inconsistencies ###
-    #this_data['INT'] = this_data.pop('OWID_INT')
 
     # change the iso_code for Northern Cyprus, for consistency
     this_data['CYN'] = this_data.pop('OWID_CYN')
@@ -31,7 +31,7 @@ def convert_owid_data(this_data):
     # change the iso_code for Kosovo, for consistency
     this_data['KOS'] = this_data.pop('OWID_KOS')
 
-    # change the iso_code for International, for consistency
+    # change the iso_code for the World aggregation, for consistency
     this_data['WRL'] = this_data.pop('OWID_WRL')
 
     return this_data
