@@ -20,6 +20,17 @@ def islands(iso):
     else:
         return False
 
+def zero_covid(iso):
+
+    # Taiwan, Vietnam, New Zealand, Hong Kong, Singapore, Australia, South Korea, China, Cambodia, Laos, Iceland, Thailand, Japan
+    zero_countries = ['TWN', 'VNM', 'NZL', 'HKG', 'SGP', 'AUS', 'KOR', 'CHN', 'KHM', 'LAO', 'ISL', 'THA', 'JPN']
+
+    if iso in zero_countries:
+        return True
+    else:
+        return False
+
+
 def no_tr_so(iso):
 
     north = ['AFG', 'ALB', 'DZA', 'AND', 'ARM', 'AUT', 'AZE', 'BHS', 'BHR', 'BGD', 'BLR', 'BEL', 'BMU', 'BTN', 'BIH', 'BGR', 'CAN', 'CHN', 'HRV', 'CYP', 'CZE', 'CYN', 'DNK', 'EGY', 'EST', 'FIN', 'FRA', 'FRO', 'GEO', 'DEU', 'GIB', 'GRC', 'GRL', 'GGY', 'HUN', 'ISL', 'IMN', 'IRN', 'IRQ', 'IRL', 'ISR', 'ITA', 'JEY', 'JPN', 'JOR', 'KAZ', 'KOS', 'KWT', 'KGZ', 'LVA', 'LBN', 'LBY', 'LIE', 'LTU', 'LUX', 'MLT', 'MDA', 'MCO', 'MNG', 'MSR', 'MNE', 'MAR', 'NPL', 'NLD', 'MKD', 'NOR', 'PAK', 'PSE', 'POL', 'PRT', 'QAT', 'ROU', 'RUS', 'SMR', 'SAU', 'SRB', 'SVK', 'SVN', 'KOR', 'ESP', 'SWE', 'CHE', 'SYR', 'TWN', 'TJK', 'TUN', 'TUR', 'UKR', 'GBR', 'USA', 'UZB', 'VAT']
@@ -85,57 +96,10 @@ def check_exists(this_val, res, this_type):
         else:
             return None
 
-def create_country_file():
-
-    # get the data and massage
-    data = read_json_data(config.DATA_FILE_STR)
-    # convert the OWID_ keys
-    data = convert_owid_data(data)
-    # also pop the INT and WRL records: not needed
-    #data.pop('INT')
-    data.pop('WRL')
-
-    # do we need to make a backup of an existing country file?
-    if os.path.exists(config.COUNTRY_FILE_STR):
-        date_time = datetime.utcnow().strftime("%Y-%m-%dT%H-%M-%S%z")
-        old_country_file_name = 'country-data-' + date_time + '.json'
-        old_country_file_str = os.path.join(config.CURRENT_DIR_STR, 'data', old_country_file_name)
-        rename_file(config.COUNTRY_FILE_STR, old_country_file_str)
-
-    global_json = dict()
-
-    #for key, val in data.items():
-    for key, val in data.items():
-
-        country_json = dict()
-
-        country_json = {
-            'continent': check_exists(val, 'continent', 's'),
-            'location': check_exists(val, 'location', 's'),
-            'population': check_exists(val, 'population', 'i'),
-            'population_density': check_exists(val, 'population_density', 'f'),
-            'area': nat_area(check_exists(val, 'population', 'i'), check_exists(val, 'population_density', 'f')),
-            'island': islands(key),
-            'gdp_per_capita': check_exists(val, 'gdp_per_capita', 'f'),
-            'no_tr_so_hemis': no_tr_so(key),
-            'e_w_hemis': e_w_hemis(key),
-            'time_zone': time_zone(key),
-            'politics': politics(key),
-            'culture': culture(key)
-            #country_json[key][''] = data[key]['']
-        }
-
-        global_json[key] = country_json
-
-    write_json_data(config.COUNTRY_FILE_STR, global_json)
-
-    print('Complete')
-
 def list_complete(iso, this_list):
 
     sorted_iso = sorted(iso, key=lambda i: i)
     sorted_this_list = sorted(this_list, key=lambda l: l)
-
 
     if sorted_iso != sorted_this_list:
 
@@ -166,48 +130,51 @@ def list_complete(iso, this_list):
     else:
         return True
 
-# driver function
-
 def main():
-
-    """
-    from covid_package.libs.valid_keys import fetch_l0_keys
-    from covid_package.data_funcs.update_data import check_refresh_data
-    # get data
 
     # get the data and massage
     data = read_json_data(config.DATA_FILE_STR)
     # convert the OWID_ keys
     data = convert_owid_data(data)
-    # also pop the INT and WRL records: not needed
-    #data.pop('INT')
+    # also pop the WRL records: not needed
     data.pop('WRL')
-    # get the iso keys
-    key_list = fetch_l0_keys(data)
 
+    # do we need to make a backup of an existing country file?
+    if os.path.exists(config.COUNTRY_FILE_STR):
+        date_time = datetime.utcnow().strftime("%Y-%m-%dT%H-%M-%S%z")
+        old_country_file_name = 'country-data-' + date_time + '.json'
+        old_country_file_str = os.path.join(config.CURRENT_DIR_STR, 'data', old_country_file_name)
+        rename_file(config.COUNTRY_FILE_STR, old_country_file_str)
 
-    islands = ['AIA', 'ATG', 'ABW', 'AUS', 'BHR', 'BHS', 'BRB', 'BMU', 'CYM', 'COM', 'CPV', 'CUB', 'CUW', 'CYP', 'CYN', 'DMA', 'FRO', 'FLK', 'FJI', 'FSM', 'GGY', 'GRL', 'GBR', 'GRD', 'IMN', 'IDN', 'IRL', 'ISL', 'JAM', 'JPN', 'JEY', 'KNA', 'KOR', 'LCA', 'LKA', 'MDG', 'MDV', 'MHL', 'MLT', 'MUS', 'MSR', 'NRU', 'NZL', 'PHL', 'PNG', 'SGP', 'SHN', 'SLB', 'STP', 'SYC', 'TON', 'TTO', 'TCA', 'TWN', 'VCT', 'VUT', 'WSM']
-    not_islands = ['AFG', 'ALB', 'DZA', 'AND', 'AGO', 'ARG', 'ARM', 'AUT', 'AZE', 'BGD', 'BEL', 'BLR', 'BLZ', 'BEN', 'BTN', 'BOL', 'BIH', 'BWA', 'BRA', 'BRN', 'BGR', 'BFA', 'BDI',
-    'KHM', 'CMR', 'CAN', 'CAF', 'TCD', 'CHL', 'CHN', 'COL', 'COG', 'CRI', 'CIV', 'HRV', 'CZE', 'COD', 'DNK', 'DJI', 'DOM', 'ECU', 'EGY', 'SLV', 'GNQ', 'ERI', 'EST', 'SWZ', 'ETH',
-    'FIN', 'FRA', 'GAB', 'GMB', 'GEO', 'DEU', 'GHA', 'GIB', 'GRC', 'GTM', 'GIN', 'GNB', 'GUY', 'HTI', 'HND', 'HKG', 'HUN', 'IND', 'IRN', 'IRQ', 'ISR', 'ITA', 'JOR', 'KAZ', 'KEN', 'KWT', 'KGZ', 'LAO', 'LVA', 'LBN', 'LSO', 'LBR', 'LBY', 'LIE', 'LTU', 'LUX', 'MAC', 'MWI', 'MYS', 'MLI', 'MRT', 'MEX', 'MDA', 'MCO', 'MNG', 'MNE', 'MAR', 'MOZ', 'MMR', 'NAM', 'NPL', 'NLD', 'NIC', 'NER', 'NGA', 'MKD',
-    'NOR', 'OMN', 'PAK', 'PSE', 'PAN', 'PRY', 'PER', 'POL', 'PRT', 'QAT', 'ROU', 'RUS', 'RWA', 'SMR', 'SAU', 'SEN', 'SRB', 'SLE', 'SVK', 'SVN', 'SOM', 'ZAF', 'SSD', 'ESP', 'SDN', 'SUR', 'SWE', 'CHE', 'SYR', 'TJK', 'TZA', 'THA', 'TLS', 'TGO', 'TUN', 'TUR', 'UGA', 'UKR', 'ARE', 'USA', 'URY', 'UZB', 'VAT', 'VEN', 'VNM', 'YEM', 'ZMB', 'ZWE', 'KOS']
+    global_json = dict()
 
+    #for key, val in data.items():
+    for key, val in data.items():
 
-    north = ['AFG', 'ALB', 'DZA', 'AND', 'ARM', 'AUT', 'AZE', 'BHS', 'BHR', 'BGD', 'BLR', 'BEL', 'BMU', 'BTN', 'BIH', 'BGR', 'CAN', 'CHN', 'HRV', 'CYP', 'CZE', 'CYN', 'DNK', 'EGY', 'EST', 'FIN', 'FRA', 'FRO', 'GEO', 'DEU', 'GIB', 'GRC', 'GRL', 'GGY', 'HUN', 'ISL', 'IMN', 'IRN', 'IRQ', 'IRL', 'ISR', 'ITA', 'JEY', 'JPN', 'JOR', 'KAZ', 'KOS', 'KWT', 'KGZ', 'LVA', 'LBN', 'LBY', 'LIE', 'LTU', 'LUX', 'MLT', 'MDA', 'MCO', 'MNG', 'MSR', 'MNE', 'MAR', 'NPL', 'NLD', 'MKD', 'NOR', 'PAK', 'PSE', 'POL', 'PRT', 'QAT', 'ROU', 'RUS', 'SMR', 'SAU', 'SRB', 'SVK', 'SVN', 'KOR', 'ESP', 'SWE', 'CHE', 'SYR', 'TWN', 'TJK', 'TUN', 'TUR', 'UKR', 'GBR', 'USA', 'UZB', 'VAT']
-    tropics = ['AGO', 'AIA', 'ABW', 'ARE', 'ATG', 'BDI', 'BEN', 'BFA', 'BLZ', 'BOL', 'BRA', 'BRB', 'BRN', 'BWA', 'CYM', 'CAF', 'CIV', 'CMR', 'COD', 'COG', 'COL', 'COM', 'CPV', 'CRI', 'CUB', 'CUW', 'DJI', 'DMA', 'DOM', 'ECU', 'ERI', 'ETH', 'FJI', 'FSM', 'GAB', 'GHA', 'GIN', 'GMB', 'GNB', 'GNQ', 'GRD', 'GTM', 'GUY', 'HKG', 'HND', 'HTI', 'IDN', 'IND', 'JAM', 'KEN', 'KHM', 'KNA', 'LAO', 'LBR', 'LCA', 'LKA', 'MAC', 'MDG', 'MDV', 'MEX', 'MHL', 'MLI', 'MMR', 'NRU', 'MOZ', 'MRT', 'MUS', 'MWI', 'MYS', 'NER', 'NGA', 'NIC', 'OMN', 'PAN', 'PER', 'PHL', 'PNG', 'PRY', 'RWA', 'SHN', 'SDN', 'SEN', 'SGP', 'SLB', 'SLE', 'SLV', 'SOM', 'SSD', 'STP', 'SUR', 'SYC', 'TCD', 'TGO', 'TON', 'THA', 'TLS', 'TTO', 'TZA', 'TCA', 'UGA', 'VCT', 'VEN', 'VNM', 'VUT', 'WSM', 'YEM', 'ZMB', 'ZWE']
-    south = ['ARG', 'AUS', 'CHL', 'FLK', 'SWZ', 'LSO', 'NAM', 'NZL', 'ZAF', 'URY']
+        country_json = dict()
 
-    island_list = islands + not_islands
+        country_json = {
+            'continent': check_exists(val, 'continent', 's'),
+            'location': check_exists(val, 'location', 's'),
+            'population': check_exists(val, 'population', 'i'),
+            'population_density': check_exists(val, 'population_density', 'f'),
+            'area': nat_area(check_exists(val, 'population', 'i'), check_exists(val, 'population_density', 'f')),
+            'island': islands(key),
+            'gdp_per_capita': check_exists(val, 'gdp_per_capita', 'f'),
+            'no_tr_so_hemis': no_tr_so(key),
+            'zero_covid': zero_covid(key),
+            'e_w_hemis': e_w_hemis(key),
+            'time_zone': time_zone(key),
+            'politics': politics(key),
+            'culture': culture(key)
+            #country_json[key][''] = data[key]['']
+        }
 
-    hemis1 = north + tropics + south
+        global_json[key] = country_json
 
+    write_json_data(config.COUNTRY_FILE_STR, global_json)
 
-    print("Islands = ", list_complete(key_list, island_list))
-    print("hemis1 = ", list_complete(key_list, hemis1))
-    """
-    # write the country data file
-    create_country_file()
-
+    print('Complete')
 
 
 # stand alone test run
