@@ -1,10 +1,9 @@
 # modules to check for expiry, read, download/write and delete covid data
 
-import config, modify
 import requests
-#from bs4 import BeautifulSoup as bSoup
 
 # comment this out for local testing
+import config, modify
 from covid_package.libs.aggregate_data import fetch_latest_data_date
 from covid_package.data_funcs.store_data import read_json_data, write_json_data, delete_file, rename_file, refresh_data, convert_owid_data, get_last_file_update
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
@@ -107,21 +106,19 @@ def main():
 
     from pathlib import Path
 
-
     proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
-
     sys.path.append(proj_loc)
 
     import config, modify
 
-
     from covid_package.libs.aggregate_data import fetch_latest_data_date
-    from covid_package.data_funcs.store_data import read_json_data
+    from covid_package.data_funcs.store_data import read_json_data, write_json_data, delete_file, rename_file, refresh_data, convert_owid_data, get_last_file_update
+    from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
     from covid_package.libs.valid_keys import fetch_l0_keys
 
+
     # get data
-    get_update_time_fm_owid()
-"""
+
     if check_refresh_data():
         # read the updated(?) data file from the data dir
         data = read_json_data(config.DATA_FILE_STR)
@@ -131,7 +128,9 @@ def main():
         #country_list = fetch_countries(data)
 
     print("After update:", fetch_latest_data_date(data, key_list))
-"""
+
+    #get_update_time_fm_owid()
+
 # stand alone test run
 # don't forget to flip the import statements
 if __name__ == "__main__":
