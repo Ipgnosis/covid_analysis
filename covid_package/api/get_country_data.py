@@ -138,7 +138,7 @@ def main():
     print("Testing...")
 
     #date_list = ['2020-01-01', '2020-01-02', '2020-01-03']
-    date_list = fetch_date_list(data, key_list)
+    #date_list = fetch_date_list(data)
     #req_l1_data = ['population', 'gdp_per_capita']
     resources = ['new_cases_per_million', 'new_deaths_per_million']
 

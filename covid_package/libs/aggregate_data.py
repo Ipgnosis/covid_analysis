@@ -40,15 +40,16 @@ def fetch_date_range(this_data, this_country):
 
 # return an ordered list of distinct dates contained in the data
 
-def fetch_date_list(this_data, country_keys):
+def fetch_date_list(this_data):
 
     date_list = []
 
-    for this_country in country_keys:
+    latest_data_date = fetch_latest_data_date(this_data)
+
+    for this_country in this_data.keys():
         for day_obj in this_data[this_country]['data']:
-            this_date = day_obj['date']
-            if this_date not in set(date_list):
-                date_list.append(this_date)
+            if (day_obj['date'] <= latest_data_date) and (day_obj['date'] not in set(date_list)):
+                date_list.append(day_obj['date'])
 
     sorted_dates = sorted(date_list, key=lambda x: x)
 
@@ -56,17 +57,18 @@ def fetch_date_list(this_data, country_keys):
 
 # return the date of the latest data
 
-def fetch_latest_data_date(this_data, country_keys):
+def fetch_latest_data_date(this_data):
 
     latest_date = "2020-01-01"
+    idx = -1
 
-    #for this_country in range(len(country_keys)):
-    for this_country in country_keys:
-        if latest_date < this_data[this_country]["data"][-1]["date"]:
-            latest_date = this_data[this_country]["data"][-1]["date"]
+    while idx >= -5:
+        if this_data['WRL']["data"][idx]["new_cases"] > 0:
+            latest_date = this_data['WRL']["data"][idx]["date"]
+            break
+        idx -= 1
 
     return latest_date
-
 
 # aggregate the values from a specific country and second level resource
 def aggregate_second_level_data(this_data, this_country, this_key):
@@ -133,9 +135,9 @@ def main():
 
     print("Testing...")
 
-    key_list = fetch_l0_keys(data)
+    #key_list = fetch_l0_keys(data)
 
-    print("Latest data is:", fetch_latest_data_date(data, key_list))
+    print("Latest data is:", fetch_latest_data_date(data))
 
 
     """

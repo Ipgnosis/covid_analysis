@@ -8,7 +8,7 @@ from covid_package.libs.aggregate_data import fetch_latest_data_date
 def get_data_items(this_data, iso_list, param_list):
 
     # get the last date that data is available
-    this_date = fetch_latest_data_date(this_data, iso_list)
+    this_date = fetch_latest_data_date(this_data)
 
     return_str = ""
 
