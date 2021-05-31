@@ -4,7 +4,8 @@
 import json
 import os
 import requests
-import config, modify
+
+import config
 
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
 
@@ -116,6 +117,7 @@ def refresh_data(source_url, backup_url, data_file):
     # if we updated the data without error
     if write_json_data(data_file, downloaded_data):
         update_the_update_file() # update the record of updates
+
     else:
         return False
 

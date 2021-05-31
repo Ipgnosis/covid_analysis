@@ -1,4 +1,5 @@
 # functions to return data from the json structure
+import config
 
 from covid_package.api.get_country_data import get_l2_iso_data
 
@@ -67,6 +68,12 @@ def fetch_latest_data_date(this_data):
             latest_date = this_data['WRL']["data"][idx]["date"]
             break
         idx -= 1
+
+    # store this in global
+    config.LATEST_DATA_DATE = latest_date
+
+    if latest_date == "2020-01-01":
+        latest_date = "ERROR"
 
     return latest_date
 

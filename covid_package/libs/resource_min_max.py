@@ -3,50 +3,66 @@
 def get_min_max(this_data, level, min_max, res, count):
 
     temp_dict = dict()
+    return_list = []
 
+    # search level 1 data
     if level == 'l1':
         for key, val in this_data.items():
             val_max = -1
             val_min = 999999999999
             if res in val.keys():
+                # find the high or low values
                 if min_max == 'max':
                     if val[res] > val_max:
                         val_max = val[res]
                 else:
                     if val[res] < val_min:
                         val_min = val[res]
+            else:
+                val_min = 0
+                val_max = 0
 
+            # append the min_max for each country
             if min_max == 'max':
                 temp_dict[key] = val_max
             else:
                 temp_dict[key] = val_min
 
+    # seartch level 2 data
     elif level == 'l2':
         for key, val in this_data.items():
             val_max = -1
             val_min = 999999999999
             for day in val['data']:
                 if res in day.keys():
+                    # find the high or low values
                     if min_max == 'max':
                         if day[res] > val_max:
                             val_max = day[res]
                     else:
                         if day[res] < val_min:
                             val_min = day[res]
+                else:
+                    val_min = 0
+                    val_max = 0
 
+            # append the min_max for each country
             if min_max == 'max':
                 temp_dict[key] = val_max
             else:
                 temp_dict[key] = val_min
 
+    # sort the list ascending or descending
     if min_max == 'max':
-        return_dict = sorted(temp_dict.items(), key = lambda kv:(-kv[1], kv[0]))
+        return_list = sorted(temp_dict.items(), key = lambda kv:(-kv[1], kv[0]))
     else:
-        return_dict = sorted(temp_dict.items(), key = lambda kv:(kv[1], kv[0]))
+        return_list = sorted(temp_dict.items(), key = lambda kv:(kv[1], kv[0]))
 
-    return_dict = return_dict[0: count]
+    # a count of 0 means don't truncate the list
+    if count > 0:
+        return_list = return_list[0: count]
 
-    return return_dict
+    return return_list
 
 # test function
 def main():
@@ -66,9 +82,9 @@ def main():
                 }
     }
 
-    lvl = 'l1'
-    resrce = 'population'
-    #resrce = 'new_cases'
+    lvl = 'l2'
+    #resrce = 'population'
+    resrce = 'new_cases'
     min_or_max = 'max'
     cnt = 2
 

@@ -30,3 +30,4 @@ COUNTRY_FILE_PATH = Path
 
 # the datetime of the data file update
 UPDATE_DATETIME_STR = str
+LATEST_DATA_DATE = str

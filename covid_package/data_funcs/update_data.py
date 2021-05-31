@@ -1,9 +1,7 @@
 # modules to check for expiry, read, download/write and delete covid data
 
 import requests
-
-# comment this out for local testing
-import config, modify
+import config
 
 from covid_package.data_funcs.store_data import delete_file, rename_file, refresh_data, get_last_file_update
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
@@ -30,6 +28,7 @@ def check_refresh_data():
         if refresh_data(config.DATA_URL_STR, config.BACKUP_DATA_URL_STR, config.DATA_FILE_STR):
             # safe to delete the old data file
             delete_file(config.OLD_FILE_STR)
+
             print("Data updated")
         else:  # un-rename data file
             if rename_file(config.OLD_FILE_STR, config.DATA_FILE_STR):
@@ -39,10 +38,11 @@ def check_refresh_data():
                 # failed to update the data and the restoration of the old data also failed
                 return False
         # the data was expired but the update operations succeeded or failed back, so we are good
+
         return True
     else:
         # the data wasn't expired, so we are good
-        print("Data file up to date")
+        print("Data file up to date: last updated at:", config.UPDATE_DATETIME_STR)
         return True
 
 # check latest data to see if expired
@@ -108,7 +108,11 @@ def main():
     from pathlib import Path
 
     proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
+    package_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
     sys.path.append(proj_loc)
+    import config, modify
+
+    sys.path.append(package_loc)
 
     import config, modify
 
