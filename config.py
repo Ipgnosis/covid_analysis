@@ -28,6 +28,7 @@ UPDATE_FILE_PATH = Path
 COUNTRY_FILE_STR = str
 COUNTRY_FILE_PATH = Path
 
-# the datetime of the data file update
+# key datetimes of the data
 UPDATE_DATETIME_STR = str
+DATA_START_DATE = str
 LATEST_DATA_DATE = str

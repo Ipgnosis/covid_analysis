@@ -1,4 +1,5 @@
 # functions to return data from the json structure
+
 import config
 
 from covid_package.api.get_country_data import get_l2_iso_data
@@ -30,7 +31,6 @@ def count_daily_records(this_data, this_country):
 
 # return the date range of the daily records for a country
 
-
 def fetch_date_range(this_data, this_country):
 
     start_date = this_data[this_country]["data"][0]["date"]
@@ -41,15 +41,20 @@ def fetch_date_range(this_data, this_country):
 
 # return an ordered list of distinct dates contained in the data
 
-def fetch_date_list(this_data):
+def fetch_date_list(this_data, **kwargs):
 
     date_list = []
 
-    latest_data_date = fetch_latest_data_date(this_data)
+    if kwargs:
+        this_start_date = kwargs['start_date']
+        this_end_date = kwargs['end_date']
+    else:
+        this_start_date = config.DATA_START_DATE
+        this_end_date = config.LATEST_DATA_DATE
 
     for this_country in this_data.keys():
         for day_obj in this_data[this_country]['data']:
-            if (day_obj['date'] <= latest_data_date) and (day_obj['date'] not in set(date_list)):
+            if (day_obj['date'] >= this_start_date) and (day_obj['date'] <= this_end_date) and (day_obj['date'] not in set(date_list)):
                 date_list.append(day_obj['date'])
 
     sorted_dates = sorted(date_list, key=lambda x: x)
@@ -126,8 +131,11 @@ def main():
 
     sys.path.append(proj_loc)
 
+    import config, modify
+
     from pathlib import Path
     from covid_package.data_funcs.store_data import read_json_data
+    from covid_package.data_funcs.store_data import convert_owid_data
     from covid_package.libs.valid_keys import fetch_l0_keys
     from covid_package.api.get_country_data import get_l2_iso_data
 
@@ -144,7 +152,9 @@ def main():
 
     #key_list = fetch_l0_keys(data)
 
-    print("Latest data is:", fetch_latest_data_date(data))
+    data = convert_owid_data(data)
+
+    print("Dates of data are:", fetch_date_range(data, 'WRL'))
 
 
     """
