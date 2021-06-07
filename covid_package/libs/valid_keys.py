@@ -31,6 +31,7 @@ def fetch_l1_keys(this_data, these_keys):
 
     return l1_keys_list
 
+
 # compile the exhaustive list of level2 keys
 def fetch_l2_keys(this_data, these_keys):
 
@@ -65,6 +66,7 @@ def valid_date(this_date):
         return True
     except:
         return False
+
 
 # convert a date string to a datetime obj
 def strptime_date(this_date_str):
