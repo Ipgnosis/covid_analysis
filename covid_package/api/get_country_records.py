@@ -3,11 +3,11 @@
 from covid_package.libs.aggregate_data import count_daily_records, fetch_date_range
 
 
-def get_country_records(this_data, list_of_keys):
+def get_country_records(this_data):
 
     return_str = ""
 
-    for iso in list_of_keys:
+    for iso in this_data.keys():
 
         this_country = this_data[iso]["location"]
 
@@ -28,11 +28,11 @@ def main():
     import os
     import sys
 
-    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\pandas")
+    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis")
 
     from pathlib import Path
-    from covid_package.libs.store_data import read_data
-    from covid_package.libs.valid_keys import fetch_l0_keys
+
+    from covid_package.data_funcs.store_data import read_json_data
 
     # get data
     CURRENT_DIR = os.path.abspath('')
@@ -43,14 +43,13 @@ def main():
     DATA_FILE = Path(file_path)
 
     # read the data file from the data dir
-    data = read_data(DATA_FILE)
+    data = read_json_data(DATA_FILE)
 
-    key_list = fetch_l0_keys(data)
 
     print("Testing get_country_records.py")
 
     # run the function
-    print(get_country_records(data, key_list))
+    print(get_country_records(data))
 
 
 # stand alone test run

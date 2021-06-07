@@ -176,7 +176,8 @@ def main():
 
     sys.path.append(proj_loc)
 
-    import config, modify
+    import config
+    import modify
 
     get_last_file_update()
 

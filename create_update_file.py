@@ -2,7 +2,8 @@ import os
 import sys
 import json
 
-import config, modify
+import config
+import modify
 
 from covid_package.data_funcs.store_data import write_json_data, rename_file
 

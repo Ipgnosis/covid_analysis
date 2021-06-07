@@ -131,7 +131,8 @@ def main():
 
     sys.path.append(proj_loc)
 
-    import config, modify
+    import config
+    import modify
 
     from pathlib import Path
     from covid_package.data_funcs.store_data import read_json_data

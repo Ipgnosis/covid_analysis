@@ -110,11 +110,11 @@ def main():
     proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
     package_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
     sys.path.append(proj_loc)
-    import config, modify
+    
+    import config
+    import modify
 
     sys.path.append(package_loc)
-
-    import config, modify
 
     from covid_package.libs.aggregate_data import fetch_latest_data_date
     from covid_package.data_funcs.store_data import read_json_data, write_json_data, delete_file, rename_file, refresh_data, convert_owid_data, get_last_file_update

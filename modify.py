@@ -1,8 +1,12 @@
 # modify the globals
 
-import config
-import os, sys
+
+import os
+import sys
+
 from pathlib import Path
+
+import config
 
 # file names
 data_file_name = 'owid-covid-data.json'

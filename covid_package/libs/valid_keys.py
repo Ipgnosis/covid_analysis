@@ -3,8 +3,6 @@
 from datetime import datetime
 
 #  compiles a list of distinct country keys, excluding aggregations
-
-
 def fetch_l0_keys(this_data):
 
     key_list = []
@@ -34,8 +32,6 @@ def fetch_l1_keys(this_data, these_keys):
     return l1_keys_list
 
 # compile the exhaustive list of level2 keys
-
-
 def fetch_l2_keys(this_data, these_keys):
 
     l2_keys_list = []
@@ -70,9 +66,7 @@ def valid_date(this_date):
     except:
         return False
 
-# convert a date string to a datetime
-
-
+# convert a date string to a datetime obj
 def strptime_date(this_date_str):
 
     format = '%Y-%m-%d'
@@ -80,9 +74,7 @@ def strptime_date(this_date_str):
     return datetime.strptime(this_date_str, format)
 
 
-# convert a strptime to a strftime
-
-
+# convert a datetime object to a date string
 def strftime_date(this_date):
 
     format = '%Y-%m-%d'

@@ -7,7 +7,8 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-import config, modify
+import config
+import modify
 
 from covid_package.data_funcs.store_data import read_json_data, write_json_data, rename_file, convert_owid_data
 

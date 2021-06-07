@@ -51,7 +51,8 @@ def main():
 
     sys.path.append(proj_loc)
 
-    import config, modify
+    import config
+    import modify
 
     from covid_package.data_funcs.store_data import print_update_record
 
