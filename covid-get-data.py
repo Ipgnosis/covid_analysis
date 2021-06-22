@@ -14,7 +14,7 @@ from covid_package.data_funcs.update_data import check_refresh_data
 
 from covid_package.libs.aggregate_data import fetch_latest_data_date
 
-from covid_package.api.get_country_data import get_l2_date_data
+#from covid_package.api.get_country_data import get_l2_date_data
 
 # update data
 
@@ -22,7 +22,8 @@ from covid_package.api.get_country_data import get_l2_date_data
 if check_refresh_data():
     # read the updated(?) data file from the data dir
     data = read_json_data(config.DATA_FILE_STR)
-    # convert the OWID_ keys
+
+    # convert the OWID_ data so that we don't trip up fetch_latest_data_date
     data = convert_owid_data(data)
 
     # set the latest data date global

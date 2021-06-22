@@ -1,22 +1,13 @@
 # output key information on available data by country
 
-from covid_package.libs.aggregate_data import count_daily_records, fetch_date_range
-
-
 def get_country_records(this_data):
 
     return_str = ""
 
-    for iso in this_data.keys():
-
-        this_country = this_data[iso]["location"]
-
-        daily_records = count_daily_records(this_data, iso)
-
-        date_range = fetch_date_range(this_data, iso)
+    for country, info in this_data.items():
 
         iso_str = "\n{}: {} = {}; from {} to {}.".format(
-            iso, this_country, str(daily_records), str(date_range[0]), str(date_range[1]))
+            country, info["location"], str(len(info['data'])), str(info['data'][0]['date']), str(info['data'][-1]['date']))
 
         return_str += iso_str
 
@@ -25,32 +16,23 @@ def get_country_records(this_data):
 
 def main():
 
-    import os
     import sys
+    """
+    sys.path.append("C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package\\data_funcs")
+    sys.path.append("C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\data")
 
-    sys.path.append("c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis")
-
-    from pathlib import Path
-
-    from covid_package.data_funcs.store_data import read_json_data
+    #from store_data import read_json_data, convert_owid_data
 
     # get data
-    CURRENT_DIR = os.path.abspath('')
-    sys.path.append(CURRENT_DIR)
-
-    FILE_NAME = 'owid-covid-data.json'
-    file_path = os.path.join(CURRENT_DIR, 'data', FILE_NAME)
-    DATA_FILE = Path(file_path)
-
-    # read the data file from the data dir
-    data = read_json_data(DATA_FILE)
+    data = read_json_data('owid-covid-data.json')
+    data = convert_owid_data(data)
 
 
     print("Testing get_country_records.py")
 
     # run the function
     print(get_country_records(data))
-
+    """
 
 # stand alone test run
 if __name__ == "__main__":
