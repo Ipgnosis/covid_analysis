@@ -15,17 +15,17 @@ def get_l0_data(this_data, this_country):
 # the level 1 api
 # req_keys is a list of level 1 keys
 # returns a dict containing all the required resources from level 1
-
-
-def get_l1_data(this_data, these_keys, req_keys):
+def get_l1_data(this_data, req_keys):
 
     return_dict = dict()
 
-    for i, iso in enumerate(these_keys):
+    for iso, country in this_data.items():
+
         country_dict = dict()
-        for r, req_key in enumerate(req_keys):
-            if req_key in this_data[iso].keys():
-                country_dict[req_key] = this_data[iso][req_key]
+        for req_key in req_keys:
+
+            if req_key in country.keys():
+                country_dict[req_key] = country[req_key]
         return_dict[iso] = country_dict
 
     return return_dict
@@ -33,24 +33,22 @@ def get_l1_data(this_data, these_keys, req_keys):
 # the level 2 key api
 # req_keys is a list of level 2 keys
 # for returns a dict with key = iso, values = list of dicts containing only the required resources
-
-
-def get_l2_iso_data(this_data, these_keys, req_keys):
+def get_l2_iso_data(this_data, req_keys):
 
     return_dict = dict()
 
-    for i, iso in enumerate(these_keys):
+    for iso, val in this_data.items():
 
         data_list = []
 
         # traverse the list of day objects
-        for d, day in enumerate(this_data[iso]['data']):
+        for day in val['data']:
 
             day_data = False  # we haven't found any data yet
             day_dict = dict()
 
             # traverse the day object looking for the required key:vals
-            for r, req_key in enumerate(req_keys):
+            for req_key in req_keys:
                 # locate the required data in the day dict
                 if req_key in day.keys():
                     day_data = True  # we have now found data
@@ -72,35 +70,30 @@ def get_l2_iso_data(this_data, these_keys, req_keys):
 # req_res is a list of level 2 keys
 # for returns a dict with key = date, values = list of resource values
 # each dict is has a key = iso, value is a list containing only the required resources
-
-def get_l2_date_data(this_data, these_keys, these_dates, req_res):
+def get_l2_date_data(this_data, these_dates, req_res):
 
     return_dict = dict()
 
-    elems = len(req_res)
+    # initialize a resource list with zeros so we have an exhaustive set of values
+    zero_list = [0] * len(req_res)
 
     for this_date in these_dates:
         date_dict = dict()
 
-        for i, iso in enumerate(these_keys):
+        for iso, val in this_data.items():
 
+            # initialize the country list with the resource values set to 0
+            country_list = zero_list.copy()
 
-            # initialize the country list to the number of the required resources
-            country_list = []
-            for e in range(elems):
-                country_list.append(0)
-
-            for d, day in enumerate(this_data[iso]['data']):
+            for day in val['data']:
 
                 if this_date == day['date']:
 
                     for r, res in enumerate(req_res):
                         # locate the required data in the day dict
                         if res in day.keys():
-                            #got_data = True
                             # store the req_res value
                             country_list[r] = day[res]
-
 
             date_dict[iso] = country_list
 
@@ -133,23 +126,23 @@ def main():
     data = convert_owid_data(data)
 
     #key_list = fetch_l0_keys(data)
-    key_list = ['WRL', 'USA', 'JPN', 'GBR']
+    #key_list = ['WRL', 'USA']
 
     print("Testing...")
 
-    #date_list = ['2020-01-01', '2020-01-02', '2020-01-03']
+    #date_list = ['2021-01-01', '2021-01-02', '2021-01-03']
     #date_list = fetch_date_list(data)
-    #req_l1_data = ['population', 'gdp_per_capita']
-    resources = ['new_cases_per_million', 'new_deaths_per_million']
+    req_l1_data = ['population', 'gdp_per_capita']
+    #resources = ['new_cases_per_million', 'new_deaths_per_million']
 
     # run the functions
     #print(get_l0_data(data, req_country))
 
-    #print(get_l1_data(data, key_list, req_l1_data))
+    print(get_l1_data(data, req_l1_data))
 
-    print(get_l2_iso_data(data, key_list, resources))
+    #print(get_l2_iso_data(data, resources))
 
-    #print(get_l2_date_data(data, key_list, date_list, resources))
+    #print(get_l2_date_data(data, date_list, resources))
 
 # stand alone test run
 if __name__ == "__main__":
