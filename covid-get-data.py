@@ -14,8 +14,6 @@ from covid_package.data_funcs.update_data import check_refresh_data
 
 from covid_package.libs.aggregate_data import fetch_latest_data_date
 
-#from covid_package.api.get_country_data import get_l2_date_data
-
 # update data
 
 # check if data up to date; if not, reload

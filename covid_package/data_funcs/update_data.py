@@ -5,8 +5,7 @@ import config
 
 from covid_package.data_funcs.store_data import delete_file, rename_file, refresh_data, get_last_file_update
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
-#from covid_package.libs.aggregate_data import fetch_latest_data_date
-#from covid_package.data_funcs.store_data import read_json_data, write_json_data, delete_file, rename_file, refresh_data, convert_owid_data, get_last_file_update
+
 
 # check that the data is up to date; if not, refresh data from github
 def check_refresh_data():
@@ -44,6 +43,7 @@ def check_refresh_data():
         # the data wasn't expired, so we are good
         print("Data file up to date: last updated at:", config.UPDATE_DATETIME_STR)
         return True
+
 
 # check latest data to see if expired
 def expired_data():
@@ -94,7 +94,7 @@ def get_update_time_fm_owid():
         return updatetime_str
     else:
         print("Error: updatetime_str =", updatetime_str)
-        return False # this will signal that the timestamp fetch has broken
+        return False  # this will signal that the timestamp fetch has broken
 
 
 # test function
@@ -110,7 +110,7 @@ def main():
     proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
     package_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
     sys.path.append(proj_loc)
-    
+
     import config
     import modify
 
