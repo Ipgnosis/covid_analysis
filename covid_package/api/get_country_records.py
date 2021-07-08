@@ -2,16 +2,16 @@
 
 def get_country_records(this_data):
 
-    return_str = ""
+    return_list = []
 
     for country, info in this_data.items():
 
-        iso_str = "\n{}: {} = {}; from {} to {}.".format(
+        iso_str = "{}: {} = {}; from {} to {}".format(
             country, info["location"], str(len(info['data'])), str(info['data'][0]['date']), str(info['data'][-1]['date']))
 
-        return_str += iso_str
+        return_list.append(iso_str)
 
-    return return_str
+    return sorted(return_list)
 
 
 def main():

@@ -54,9 +54,9 @@ def get_min_max(this_data, level, min_max, res, count):
 
     # sort the list ascending or descending
     if min_max == 'max':
-        return_list = sorted(temp_dict.items(), key = lambda kv:(-kv[1], kv[0]))
+        return_list = sorted(temp_dict.items(), key=lambda kv: (-kv[1], kv[0]))
     else:
-        return_list = sorted(temp_dict.items(), key = lambda kv:(kv[1], kv[0]))
+        return_list = sorted(temp_dict.items(), key=lambda kv: (kv[1], kv[0]))
 
     # a count of 0 means don't truncate the list
     if count > 0:
@@ -64,31 +64,33 @@ def get_min_max(this_data, level, min_max, res, count):
 
     return return_list
 
+
 # test function
 def main():
 
     agg_test_data = {
         "CAN": {"median_age": 50.0, "population": 500000.0, "gdp_per_capita": 50000.0,
-                "data": [{"date": "2020-11-01", "new_cases": 50, "new_deaths": 5}, {"date": "2020-11-02", "new_cases": 56, "new_deaths": 6}, {"date": "2020-11-03","new_cases": 54, "new_deaths": 4}]
+                "data": [{"date": "2020-11-01", "new_cases": 50, "new_deaths": 5}, {"date": "2020-11-02", "new_cases": 56, "new_deaths": 6}, {"date": "2020-11-03", "new_cases": 54, "new_deaths": 4}]
                 },
         "AFG": {"median_age": 30.0, "population": 300000.0, "gdp_per_capita": 30000.0,
-                "data": [{"date": "2020-11-01", "new_cases": 33, "new_deaths": 3}, {"date": "2020-11-02", "new_cases": 39, "new_deaths": 9}, {"date": "2020-11-03","new_cases": 36, "new_deaths": 6}]
+                "data": [{"date": "2020-11-01", "new_cases": 33, "new_deaths": 3}, {"date": "2020-11-02", "new_cases": 39, "new_deaths": 9}, {"date": "2020-11-03", "new_cases": 36, "new_deaths": 6}]
                 },
         "BEL": {"median_age": 60.0, "population": 600000.0, "gdp_per_capita": 60000.0,
-                "data": [{"date": "2020-11-01", "new_cases": 84, "new_deaths": 4}, {"date": "2020-11-02", "new_cases": 82, "new_deaths": 2}, {"date": "2020-11-03","new_cases": 88, "new_deaths": 8}]
+                "data": [{"date": "2020-11-01", "new_cases": 84, "new_deaths": 4}, {"date": "2020-11-02", "new_cases": 82, "new_deaths": 2}, {"date": "2020-11-03", "new_cases": 88, "new_deaths": 8}]
                 },
         "VAT": {"median_age": 40.0, "population": 400000.0, "gdp_per_capita": 40000.0,
-                "data": [{"date": "2020-11-01", "new_cases": 45, "new_deaths": 5}, {"date": "2020-11-02", "new_cases": 43, "new_deaths": 3}, {"date": "2020-11-03","new_cases": 47, "new_deaths": 7}]
+                "data": [{"date": "2020-11-01", "new_cases": 45, "new_deaths": 5}, {"date": "2020-11-02", "new_cases": 43, "new_deaths": 3}, {"date": "2020-11-03", "new_cases": 47, "new_deaths": 7}]
                 }
     }
 
     lvl = 'l2'
-    #resrce = 'population'
+    # resrce = 'population'
     resrce = 'new_cases'
     min_or_max = 'max'
     cnt = 2
 
     print(get_min_max(agg_test_data, lvl, min_or_max, resrce, cnt))
+
 
 if __name__ == "__main__":
     main()
