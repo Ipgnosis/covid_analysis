@@ -54,8 +54,10 @@ sys.path.append(config.COUNTRY_FILE_PATH)
 
 # important datetimes
 # the update datetime of the current data file
-config.UPDATE_DATETIME_STR = "2019-01-01T10:00:00Z"  # this is just a dummy to initialize the variable: gets reset every program run
+# this is just a dummy to initialize the variable: gets reset every program run
+config.UPDATE_DATETIME_STR = "2019-01-01T10:00:00Z"
 # the date of the earliest valid data in the data set
-config.DATA_START_DATE = "2020-01-01" # may change this later
+config.DATA_START_DATE = "2020-01-01"  # may change this later
 # the date of the most recent valid data in the data set
-config.LATEST_DATA_DATE = "2018-01-01"  # this is just a dummy to initialize the variable: gets reset every program run
+# this is just a dummy to initialize the variable: gets reset every program run
+config.LATEST_DATA_DATE = "2018-01-01"

@@ -1,34 +1,33 @@
 # declare the global variables
 
-from pathlib import Path
 
 # urls for covid data file
-DATA_URL_STR = str
-BACKUP_DATA_URL_STR = str
+DATA_URL_STR = "empty"
+BACKUP_DATA_URL_STR = "empty"
 
 # project paths
-CURRENT_DIR_STR = str
-CURRENT_DIR_PATH = Path
-COVID_PACKAGE_STR = str
-COVID_PACKAGE_PATH = Path
+CURRENT_DIR_STR = "empty"
+CURRENT_DIR_PATH = "empty"
+COVID_PACKAGE_STR = "empty"
+COVID_PACKAGE_PATH = "empty"
 
 # data file paths
-DATA_FILE_STR = str
-DATA_FILE_PATH = Path
+DATA_FILE_STR = "empty"
+DATA_FILE_PATH = "empty"
 
 # backup file
-OLD_FILE_STR = str
-OLD_FILE_PATH = Path
+OLD_FILE_STR = "empty"
+OLD_FILE_PATH = "empty"
 
 # file update record
-UPDATE_FILE_STR = str
-UPDATE_FILE_PATH = Path
+UPDATE_FILE_STR = "empty"
+UPDATE_FILE_PATH = "empty"
 
 # country analysis file
-COUNTRY_FILE_STR = str
-COUNTRY_FILE_PATH = Path
+COUNTRY_FILE_STR = "empty"
+COUNTRY_FILE_PATH = "empty"
 
 # key datetimes of the data
-UPDATE_DATETIME_STR = str
-DATA_START_DATE = str
-LATEST_DATA_DATE = str
+UPDATE_DATETIME_STR = "empty"
+DATA_START_DATE = "empty"
+LATEST_DATA_DATE = "empty"

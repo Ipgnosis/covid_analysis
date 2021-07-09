@@ -67,7 +67,7 @@ def write_json_data(fname, wdata):
 
     try:
         with open(fname, 'w') as outfile:
-            json.dump(wdata, outfile)
+            json.dump(wdata, outfile, indent=4)
         return True
     except OSError as error:
         print(error)
@@ -116,7 +116,7 @@ def refresh_data(source_url, backup_url, data_file):
 
     # if we updated the data without error
     if write_json_data(data_file, downloaded_data):
-        update_the_update_file() # update the record of updates
+        update_the_update_file()  # update the record of updates
 
     else:
         return False
@@ -165,21 +165,27 @@ def update_the_update_file():
 
 # test function
 
+
 def main():
 
-    #import os
+    import os
     import sys
     #import json
     #from pathlib import Path
 
     proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
-
+    package_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
     sys.path.append(proj_loc)
-
+    sys.path.append(package_loc)
     import config
     import modify
 
-    get_last_file_update()
+    update_data = read_json_data(config.UPDATE_FILE_STR)
+
+    print(update_data)
+
+    #write_json_data(config.UPDATE_FILE_STR, update_data)
+
 
     """
     dtstr = "2021-04-04T08:02:44Z"
@@ -194,6 +200,7 @@ def main():
 
     print("time =", convert_datetime_str_to_obj(dtstr, 'time'))
     """
+
 
 # stand alone test run
 # don't forget to flip the import statements
