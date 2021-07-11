@@ -86,7 +86,7 @@ def get_update_time_fm_owid():
 
     # strip the new line from the timestamp and add the timezone
     # ensures the right format for convert_datetime_str_to_obj
-    updatetime_str = timestamp_data.text[:-1] + "Z"
+    updatetime_str = timestamp_data.text + "Z"
 
     # validate and return the timestamp
     # note we are returning the string, not the object in order not to break later logic
