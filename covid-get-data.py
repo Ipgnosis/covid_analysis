@@ -9,7 +9,8 @@ import modify
 
 # local imports
 
-from covid_package.data_funcs.store_data import read_json_data, convert_owid_data
+from covid_package.data_funcs.store_data import read_json_data
+from covid_package.data_funcs.store_data import convert_owid_data
 from covid_package.data_funcs.update_data import check_refresh_data
 
 from covid_package.libs.aggregate_data import fetch_latest_data_date
@@ -28,4 +29,5 @@ if check_refresh_data():
     config.LATEST_DATA_DATE = fetch_latest_data_date(data)
 
     print("Latest data is:", config.LATEST_DATA_DATE)
-    print("Current UTC 0 dateime = {}".format(datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S%z")))
+    utc0_dt = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S%z")
+    print("Current UTC 0 dateime = {}".format(utc0_dt))
