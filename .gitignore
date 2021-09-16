@@ -112,4 +112,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# data file too large to push
 data/owid-covid-data.json
