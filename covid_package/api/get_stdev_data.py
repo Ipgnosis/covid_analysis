@@ -1,29 +1,29 @@
-# takes output from get_l2_keys_data (params = ['new_cases_per_million', 'new_deaths_per_million'])
+# takes output from get_l2_keys_data
 # outputs global standard deviation for that day
 
 import numpy as np
 
-# calculating the standard deviations for cases and deaths for a given date
+
+# calculating the standard deviations for 2 values for a given date
 # return a tuple with values for a given date: (case_std, death_std)
+def get_stdevs(day_dict):
 
-def get_case_death_stdev(day_dict):
-
-    case_list_pm = []
-    death_list_pm = []
+    val_1_list = []
+    val_2_list = []
 
     # iterate across the day_dict:
     for country in day_dict:
 
-        case_list_pm.append(day_dict[country][0])
-        death_list_pm.append(day_dict[country][1])
+        val_1_list.append(day_dict[country][0])
+        val_2_list.append(day_dict[country][1])
 
-    case_pm_std = np.std(case_list_pm)
-    death_pm_std = np.std(death_list_pm)
+    val_1_std = np.std(val_1_list)
+    val_2_std = np.std(val_2_list)
 
-    #print("gcdstd: case_std = ", case_pm_std)
-    #print("gcdstd: death_std = ", death_pm_std)
+    # print("gcdstd: case_std = ", val_1_std)
+    # print("gcdstd: death_std = ", val_2_std)
 
-    return (round(case_pm_std, 3), round(death_pm_std, 3))
+    return (round(val_1_std, 3), round(val_2_std, 3))
 
 
 def main():
