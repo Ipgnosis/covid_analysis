@@ -30,6 +30,6 @@ The full data can be downloaded from https://ourworldindata.org/coronavirus-sour
 ## Goal(s):
 1. Write some articles on the findings from above
 2. Build a website providing (interactive?) analysis from the above and supporting the article(s)
-3. Build an API to support the website, since the data is too large to download within a page (currently approaching 50Mb).  A prototype is up and running on Azure.  I'll probably post that code in another repo.
+3. Build an API to support the website, since the data is too large to download within a page (currently approaching 125Mb).  A prototype is up and running on Azure.  I'll probably post that code in another repo.
 
 (i.) Max Roser, Hannah Ritchie, Esteban Ortiz-Ospina and Joe Hasell (2020) - "Coronavirus Pandemic (COVID-19)". Published online at OurWorldInData.org. Retrieved from: 'https://ourworldindata.org/coronavirus' [Online Resource]
