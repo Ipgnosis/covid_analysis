@@ -3,7 +3,7 @@
 import os
 import sys
 
-from covid_package.libs.store_data import read_data
+from covid_package.data_funcs.store_data import read_json_data
 from covid_package.api.get_country_data import get_country_data
 
 CURRENT_DIR = os.path.dirname(__file__)
@@ -19,7 +19,7 @@ COVID_PACKAGE = os.path.join(CURRENT_DIR, 'covid_package')
 sys.path.append(COVID_PACKAGE)
 
 # read the data file from the data dir
-data = read_data(DATA_FILE)
+data = read_json_data(DATA_FILE)
 
 test_country = "AFG"
 

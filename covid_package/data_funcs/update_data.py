@@ -1,11 +1,10 @@
 # modules to check for expiry, read, download/write and delete covid data
 
-import requests
+from urllib.request import urlopen
 import config
 
 from covid_package.data_funcs.store_data import delete_file, rename_file, refresh_data, get_last_file_update
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
-
 
 # check that the data is up to date; if not, refresh data from github
 def check_refresh_data():
@@ -44,7 +43,6 @@ def check_refresh_data():
         print("Data file up to date: last updated at:", config.UPDATE_DATETIME_STR)
         return True
 
-
 # check latest data to see if expired
 def expired_data():
 
@@ -55,7 +53,7 @@ def expired_data():
     # latest data update was 2021-04-02T09:11:58Z
 
     # check last update datetime of current data file
-    config.UPDATE_DATETIME_STR = get_last_file_update() # set the global to the datetime in the update-record
+    config.UPDATE_DATETIME_STR = get_last_file_update()  # set the global to the datetime in the update-record
     last_updatetime_obj = convert_datetime_str_to_obj(config.UPDATE_DATETIME_STR, 'datetime')
 
     # get latest update datetime of owid data from github
@@ -73,20 +71,18 @@ def expired_data():
         # Data file up to date
         return False
 
-
-# fetches the update time string from Github
-# this replaces a brittle screen scrape approach using bs4
+# fetches the update time string from OWID
 # returns a validated datetime string
 def get_update_time_fm_owid():
 
-    timestamp_url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data-last-updated-timestamp.txt"
+    timestamp_url = "https://covid.ourworldindata.org/data/owid-covid-data-last-updated-timestamp.txt"
 
     # get the timestamp
-    timestamp_data = requests.get(timestamp_url)
+    timestamp_page = urlopen(timestamp_url)
+    timestamp_str = str(timestamp_page.read(), 'utf-8')
 
-    # strip the new line from the timestamp and add the timezone
-    # ensures the right format for convert_datetime_str_to_obj
-    updatetime_str = timestamp_data.text + "Z"
+    # add the timezone to ensure correct format for convert_datetime_str_to_obj
+    updatetime_str = timestamp_str + "Z"
 
     # validate and return the timestamp
     # note we are returning the string, not the object in order not to break later logic
@@ -96,9 +92,7 @@ def get_update_time_fm_owid():
         print("Error: updatetime_str =", updatetime_str)
         return False  # this will signal that the timestamp fetch has broken
 
-
 # test function
-
 def main():
 
     import os
