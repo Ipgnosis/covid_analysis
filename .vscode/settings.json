@@ -1,5 +1,7 @@
 {
+    "python.pythonPath": "C:\\Users\\Ipgnosis\\anaconda3\\envs\\jovian\\python.exe",
     "python.condaPath": "C:\\Users\\Ipgnosis\\anaconda3\\envs\\jovian\\python.exe",
+    "python.terminal.activateEnvironment": true,
     "python.linting.mypyEnabled": false,
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": true,
