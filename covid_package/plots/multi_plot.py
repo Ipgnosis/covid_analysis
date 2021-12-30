@@ -9,8 +9,8 @@ def multi_plots(label_dict, data_dict):
 
     # declare the plot colors
     mean_color = 'saddlebrown'
-    stdev_color = 'yellow'
-    line_color = ['blue', 'green', 'grey', 'orange', 'red', 'purple', 'black']
+    stdev_color = 'orange'
+    line_color = ['blue', 'red', 'green', 'grey', 'magenta', 'cyan', 'black']
 
     # create the labels
     chart_title_str = "{} data for:".format(label_dict['expl_str'])
@@ -37,9 +37,9 @@ def multi_plots(label_dict, data_dict):
 
     # for each plot, create a plot line for each country
     for idx, iso in enumerate(label_dict['y_isos']):
-        chart_title_str += iso + " "
-        ax1.plot(data_dict['x_axis'], data_dict['country_val1'][iso], label=label_dict['y_axis_labels'][idx], color=line_color[idx])
-        ax2.plot(data_dict['x_axis'], data_dict['country_val2'][iso], label=label_dict['y_axis_labels'][idx], color=line_color[idx])
+        chart_title_str += label_dict['y_axis_labels'][idx] + " "
+        ax1.plot(data_dict['x_axis'], data_dict['ax1_vals'][idx], label=label_dict['y_axis_labels'][idx], color=line_color[idx])
+        ax2.plot(data_dict['x_axis'], data_dict['ax2_vals'][idx], label=label_dict['y_axis_labels'][idx], color=line_color[idx])
 
     # ax2.set_xlabel(x_axis_label_str, fontsize=10)
 

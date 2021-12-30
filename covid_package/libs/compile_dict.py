@@ -1,4 +1,5 @@
 from covid_package.api.get_stdev_data import get_stdevs
+from datetime import datetime
 
 
 # collate all the relevant data for the analysis in question
@@ -51,53 +52,58 @@ def collate_print_data(isos, all_country_res_data):
 
     # declare the vars
     print_dict = dict()
-    x_axis = country_val1 = country_val2 = []
-    yw1_axis = yw1_upper = yw1_lower = []
-    yw2_axis = yw2_upper = yw2_lower = []
+    print_dict["x_axis"] = []
+    print_dict["yw1_axis"] = []
+    print_dict["yw2_axis"] = []
+    print_dict["yw1_upper"] = []
+    print_dict["yw1_lower"] = []
+    print_dict["yw2_upper"] = []
+    print_dict["yw2_lower"] = []
+    print_dict["ax1_vals"] = []
+    print_dict["ax2_vals"] = []
+
+    # dynamically create 2 lists for each iso
+    for iso in isos:
+        locals()['ax1_' + iso] = []
+        locals()['ax2_' + iso] = []
 
     # cycle through each day's collections of values
     for key, vals in all_country_res_data.items():
 
-        # print(key)
-        x_axis.append(key)
+        print_dict["x_axis"].append(datetime.strptime(key, "%Y-%m-%d"))
 
         # store the value for World
         wrl_val_0 = vals['WRL'][0]
         wrl_val_1 = vals['WRL'][1]
 
         # collate the values for World
-        yw1_axis.append(vals['WRL'][0])
-        yw2_axis.append(vals['WRL'][1])
+        print_dict["yw1_axis"].append(vals['WRL'][0])
+        print_dict["yw2_axis"].append(vals['WRL'][1])
 
         # pop the wrl vals out of the structure
         # so they don't screw up the stdev calculation
-        vals.pop('WRL')
+        stdev_vals = vals.copy()
+        stdev_vals.pop('WRL')
 
         # calculate the std dev for the day
-        mean_stdev = get_stdevs(vals)
+        mean_stdev = get_stdevs(stdev_vals)
 
         # collate the WRL values for the two plots
-        yw1_upper.append(wrl_val_0 + mean_stdev[0])
-        yw1_lower.append(max(wrl_val_0 - mean_stdev[0], 0))
-        yw2_upper.append(wrl_val_1 + mean_stdev[1])
-        yw2_lower.append(max(wrl_val_1 - mean_stdev[1], 0))
+        print_dict["yw1_upper"].append(wrl_val_0 + mean_stdev[0])
+        print_dict["yw1_lower"].append(max(wrl_val_0 - mean_stdev[0], 0))
+        print_dict["yw2_upper"].append(wrl_val_1 + mean_stdev[1])
+        print_dict["yw2_lower"].append(max(wrl_val_1 - mean_stdev[1], 0))
 
         # trim down the country_data_data to the target isos
-        for i in range(len(isos)):
-            country_val1.append(vals[isos[i]][0])
-            country_val2.append(vals[isos[i]][1])
+        # append the ax1 and ax1 y axis plot values to the respective lists
+        for iso in isos:
+            locals()['ax1_' + iso].append(vals[iso][0])
+            locals()['ax2_' + iso].append(vals[iso][1])
 
-    # print(x_axis)
-    # populate the print dict
-    print_dict["x_axis"] = x_axis
-    print_dict["yw1_axis"] = yw1_axis
-    print_dict["yw2_axis"] = yw2_axis
-    print_dict["yw1_upper"] = yw1_upper
-    print_dict["yw1_lower"] = yw1_lower
-    print_dict["yw2_upper"] = yw2_upper
-    print_dict["yw2_lower"] = yw2_lower
-    print_dict["country_val1"] = country_val1
-    print_dict["county_val2"] = country_val2
+    # dynamically append the 2 y axis lists to the plot lists
+    for iso in isos:
+        print_dict["ax1_vals"].append(locals()['ax1_' + iso])
+        print_dict["ax2_vals"].append(locals()['ax2_' + iso])
 
     print("print_dict compiled")
 

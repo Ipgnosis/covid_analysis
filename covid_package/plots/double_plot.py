@@ -71,7 +71,7 @@ def two_plots(chart_data, this_dict):
     ax1.plot(x_axis, y1ii_axis, label=y1ii_axis_legend_str, color='green')
 
     # subplot 2
-    ax2.set_title(chart_data['descr_str_2'], fontsize = chart_data['fsize'])
+    ax2.set_title(chart_data['descr_str_2'], fontsize=chart_data['fsize'])
     ax2.plot(x_axis, yw2_axis, label=yw2_axis_legend_str, color='red')
     ax2.grid()
     ax2.fill_between(x_axis, yw2_upper, yw2_lower, label=yw2_stdev_legend_str, color='orange', alpha=0.5)
