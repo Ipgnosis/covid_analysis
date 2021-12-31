@@ -13,7 +13,7 @@ def multi_plots(label_dict, data_dict):
     line_color = ['blue', 'red', 'green', 'grey', 'magenta', 'cyan', 'black']
 
     # create the labels
-    chart_title_str = "{} data for:".format(label_dict['expl_str'])
+    chart_title_str = "{} data for: ".format(label_dict['expl_str'])
     # chart_title_string is enhanced below
     yw1_axis_legend_str = yw2_axis_legend_str = "Global mean"
     yw1_stdev_legend_str = yw2_stdev_legend_str = "Global std dev"
@@ -37,7 +37,11 @@ def multi_plots(label_dict, data_dict):
 
     # for each plot, create a plot line for each country
     for idx, iso in enumerate(label_dict['y_isos']):
-        chart_title_str += label_dict['y_axis_labels'][idx] + " "
+        # save an execution loop by creating the chart title here
+        if iso == label_dict['y_isos'][-1]:
+            chart_title_str += label_dict['y_axis_labels'][idx]
+        else:
+            chart_title_str += label_dict['y_axis_labels'][idx] + ", "
         ax1.plot(data_dict['x_axis'], data_dict['ax1_vals'][idx], label=label_dict['y_axis_labels'][idx], color=line_color[idx])
         ax2.plot(data_dict['x_axis'], data_dict['ax2_vals'][idx], label=label_dict['y_axis_labels'][idx], color=line_color[idx])
 

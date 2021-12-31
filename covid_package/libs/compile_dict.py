@@ -2,6 +2,7 @@ from covid_package.api.get_stdev_data import get_stdevs
 from datetime import datetime
 
 
+### OLD VERSION - retained for backwards compat - see below for new version ###
 # collate all the relevant data for the analysis in question
 # return a dict containing the data with WRL and standard deviation separated out
 def collate_data(this_country_date_data):
@@ -46,8 +47,9 @@ def collate_data(this_country_date_data):
 # collate all the relevant data for the analysis in question
 # return a dict containing the data with WRL and standard deviation separated out
 def collate_print_data(isos, all_country_res_data):
-    """ Collates the data for and returns a dict containing that data for World,
-    the Std Dev values and the data for all countries and all available dates.
+    """ Collates the data for a specific pair of L2 attributes and returns a dict
+    containing that data for World, the Std Dev values and the data for all countries
+    and all available dates.
     """
 
     # declare the vars
@@ -62,7 +64,7 @@ def collate_print_data(isos, all_country_res_data):
     print_dict["ax1_vals"] = []
     print_dict["ax2_vals"] = []
 
-    # dynamically create 2 lists for each iso
+    # dynamically create 2 y-axis lists for each iso
     for iso in isos:
         locals()['ax1_' + iso] = []
         locals()['ax2_' + iso] = []
@@ -95,16 +97,16 @@ def collate_print_data(isos, all_country_res_data):
         print_dict["yw2_lower"].append(max(wrl_val_1 - mean_stdev[1], 0))
 
         # trim down the country_data_data to the target isos
-        # append the ax1 and ax1 y axis plot values to the respective lists
+        # append the ax1 and ax1 y-axis plot values to the respective lists
         for iso in isos:
             locals()['ax1_' + iso].append(vals[iso][0])
             locals()['ax2_' + iso].append(vals[iso][1])
 
-    # dynamically append the 2 y axis lists to the plot lists
+    # dynamically append the 2 y-axis lists to the plot lists
     for iso in isos:
         print_dict["ax1_vals"].append(locals()['ax1_' + iso])
         print_dict["ax2_vals"].append(locals()['ax2_' + iso])
 
-    print("print_dict compiled")
+    # print("print_dict compiled")
 
     return print_dict
