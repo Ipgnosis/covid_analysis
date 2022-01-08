@@ -175,8 +175,9 @@ def main():
 
     proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
     package_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
-    sys.path.append(proj_loc)
-    sys.path.append(package_loc)
+    sys.path.insert(0, proj_loc)
+    sys.path.insert(0, package_loc)
+
     import config
     import modify
 

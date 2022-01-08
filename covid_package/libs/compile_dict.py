@@ -46,7 +46,7 @@ def collate_data(this_country_date_data):
 
 # collate all the relevant data for the analysis in question
 # return a dict containing the data with WRL and standard deviation separated out
-def collate_print_data(isos, all_country_res_data):
+def collate_plot_data(isos, all_country_res_data):
     """ Collates the data for a specific pair of L2 attributes and returns a dict
     containing that data for World, the Std Dev values and the data for all countries
     and all available dates.
