@@ -9,6 +9,7 @@ import config
 
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
 
+
 # convert the 'OWID_' iso_codes to 3 char codes or remove
 def convert_owid_data(this_data):
 
@@ -36,6 +37,7 @@ def convert_owid_data(this_data):
     this_data['WRL'] = this_data.pop('OWID_WRL')
 
     return this_data
+
 
 # output the contents of update-record.json
 def print_update_record():
@@ -99,20 +101,15 @@ def rename_file(fromf, tof):
 
 
 # download and save new data file version
-def refresh_data(source_url, backup_url, data_file):
+# data went missing from Github in Jan, 2022
+def refresh_data(source_url, data_file):
 
     # get the json data from github
     try:
         downloaded_data = requests.get(source_url).json()
     except:
-        print("Data cannot be downloaded from Github, trying OWID")
-
-        # Go to backup source
-        try:
-            downloaded_data = requests.get(backup_url).json()
-        except:
-            print("Data cannot be downloaded from OWID")
-            return False
+        print("Data cannot be downloaded from OWID")
+        return False
 
     # if we updated the data without error
     if write_json_data(data_file, downloaded_data):

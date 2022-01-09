@@ -10,7 +10,7 @@ Like many others, I have been fascinated (not to mention horrified) by the Covid
 
 I found 'Our World in Data' (see citation in footnote i. below) which is a project based at the Oxford Martin School of the University of Oxford, UK.  As described here (https://ourworldindata.org/covid-sources-comparison), this data is based on a range of sources, but particularly the European Center for Disease Control and Prevention as well as Johns Hopkins University.
 
-The full data can be downloaded from https://ourworldindata.org/coronavirus-source-data or https://github.com/owid/covid-19-data/tree/master/public/data.  The data is available in either .json, .csv or .xlsx format and is updated at least once per day.
+The full data can be downloaded from https://ourworldindata.org/coronavirus-source-data.  The data is available in either .json, .csv or .xlsx format and is updated at least once per day.
 
 ## Hypotheses:
 1. Economic strength correlates to high performance in pandemic management

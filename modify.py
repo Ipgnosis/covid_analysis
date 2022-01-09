@@ -14,9 +14,9 @@ old_data_file_name = 'owid-covid-data-old.json'
 update_file_name = 'update-record.json'
 country_file_name = 'country-data.json'
 
-# urls for covid data file
-config.DATA_URL_STR = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.json"
-config.BACKUP_DATA_URL_STR = "https://covid.ourworldindata.org/data/owid-covid-data.json"
+# url for covid data file
+# data went missing from github in Jan, 2022
+config.DATA_URL_STR = "https://covid.ourworldindata.org/data/owid-covid-data.json"
 
 # set up the project paths
 

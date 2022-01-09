@@ -23,7 +23,7 @@ def check_refresh_data():
             delete_file(config.DATA_FILE_STR)
 
         # try to get an updated copy of the data and store it
-        if refresh_data(config.DATA_URL_STR, config.BACKUP_DATA_URL_STR, config.DATA_FILE_STR):
+        if refresh_data(config.DATA_URL_STR, config.DATA_FILE_STR):
             # safe to delete the old data file
             delete_file(config.OLD_FILE_STR)
 
@@ -42,6 +42,7 @@ def check_refresh_data():
         # the data wasn't expired, so we are good
         print("Data file up to date: last updated at:", config.UPDATE_DATETIME_STR)
         return True
+
 
 # check latest data to see if expired
 def expired_data():
@@ -71,6 +72,7 @@ def expired_data():
         # Data file up to date
         return False
 
+
 # fetches the update time string from OWID
 # returns a validated datetime string
 def get_update_time_fm_owid():
@@ -91,6 +93,7 @@ def get_update_time_fm_owid():
     else:
         print("Error: updatetime_str =", updatetime_str)
         return False  # this will signal that the timestamp fetch has broken
+
 
 # test function
 def main():
@@ -115,20 +118,19 @@ def main():
     from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
     from covid_package.libs.valid_keys import fetch_l0_keys
 
-
     # get data
 
     if check_refresh_data():
         # read the updated(?) data file from the data dir
         data = read_json_data(config.DATA_FILE_STR)
         # repopulate the keys
-        #key_list = fetch_l0_keys(data)
+        # key_list = fetch_l0_keys(data)
         # need this?
-        #country_list = fetch_countries(data)
+        # country_list = fetch_countries(data)
 
     print("After update:", fetch_latest_data_date(data))
 
-    #get_update_time_fm_owid()
+    # get_update_time_fm_owid()
 
 # stand alone test run
 # don't forget to flip the import statements

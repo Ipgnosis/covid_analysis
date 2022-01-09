@@ -2,8 +2,8 @@
 
 
 # urls for covid data file
+# data went missing from Github in Jan, 2022
 DATA_URL_STR = "empty"
-BACKUP_DATA_URL_STR = "empty"
 
 # project paths
 CURRENT_DIR_STR = "empty"
