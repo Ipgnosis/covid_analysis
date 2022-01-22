@@ -74,8 +74,8 @@ def multi_plots(label_dict, data_dict):
     ax2.tick_params(labelsize=label_dict['lsize'])
 
     # format the legends
-    ax1.legend(loc=0, fontsize=label_dict['fsize'])
-    ax2.legend(loc=0, fontsize=label_dict['fsize'])
+    ax1.legend(loc=2, fontsize=label_dict['fsize'])
+    ax2.legend(loc=2, fontsize=label_dict['fsize'])
 
     # display the plot
     plt.show()
