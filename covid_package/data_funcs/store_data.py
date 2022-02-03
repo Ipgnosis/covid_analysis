@@ -16,13 +16,14 @@ def convert_owid_data(this_data):
     # the list(s) of OWID_ data that we are going to remove for consistency
 
     # don't pop the INT data
-    #owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
+    # owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
 
-    # change the iso_code for International, for consistency
-    ### this data causes bugs since it is missing key resources, e.g. population ###
-    ### exclusion may cause minor inconsistencies ###
+    # if we pop the iso_code for International, for consistency
+    # this data causes bugs since it is missing key resources, e.g. population
+    # exclusion may cause minor inconsistencies
+    
     # pop the INT data
-    owid_list = ['OWID_INT', 'OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
+    owid_list = ['OWID_INT', 'OWID_AFR', 'OWID_ASI', 'OWID_EUR', 'OWID_EUN', 'OWID_HIC', 'OWID_LIC', 'OWID_LMC', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM', 'OWID_UMC']
 
     # clear out the unneeded 'OWID_' entries
     [this_data.pop(i) for i in owid_list]
@@ -35,6 +36,9 @@ def convert_owid_data(this_data):
 
     # change the iso_code for the World aggregation, for consistency
     this_data['WRL'] = this_data.pop('OWID_WRL')
+
+    # trap new OWID codes
+    {print('New OWID_ key:', key) for key in this_data.keys() if len(key) > 3}
 
     return this_data
 
@@ -68,7 +72,7 @@ def read_json_data(fname):
 def write_json_data(fname, wdata):
 
     try:
-        with open(fname, 'w') as outfile:
+        with open(fname, 'w', encoding='utf-8') as outfile:
             json.dump(wdata, outfile, indent=4)
         return True
     except OSError as error:
