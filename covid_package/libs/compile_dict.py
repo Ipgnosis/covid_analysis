@@ -82,7 +82,7 @@ def collate_plot_data(isos, all_country_res_data):
         print_dict["yw1_axis"].append(vals['WRL'][0])
         print_dict["yw2_axis"].append(vals['WRL'][1])
 
-        # pop the wrl vals out of the structure
+        # pop the WRL vals out of the structure
         # so they don't screw up the stdev calculation
         stdev_vals = vals.copy()
         stdev_vals.pop('WRL')

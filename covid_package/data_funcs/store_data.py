@@ -16,12 +16,13 @@ def convert_owid_data(this_data):
     # the list(s) of OWID_ data that we are going to remove for consistency
 
     # don't pop the INT data
-    # owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUN', 'OWID_EUR', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM']
+    # owid_list = ['OWID_AFR', 'OWID_ASI', 'OWID_EUR', 'OWID_EUN', 'OWID_HIC', 'OWID_LIC', 'OWID_LMC', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM', 'OWID_UMC']
 
-    # if we pop the iso_code for International, for consistency
+    # pop the iso_code for International, for consistency
     # this data causes bugs since it is missing key resources, e.g. population
-    # exclusion may cause minor inconsistencies
-    
+    # exclusion may cause minor inconsistencies because it includes a small number of
+    # cases that are not attributable to a country (e.g. cases at sea)
+
     # pop the INT data
     owid_list = ['OWID_INT', 'OWID_AFR', 'OWID_ASI', 'OWID_EUR', 'OWID_EUN', 'OWID_HIC', 'OWID_LIC', 'OWID_LMC', 'OWID_NAM', 'OWID_OCE', 'OWID_SAM', 'OWID_UMC']
 
