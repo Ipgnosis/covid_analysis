@@ -39,8 +39,8 @@ def fetch_date_range(this_data, this_country):
 
     return start_date, end_date
 
-# return an ordered list of distinct dates contained in the data
 
+# return an ordered list of distinct dates contained in the data
 def fetch_date_list(this_data, **kwargs):
 
     date_list = []

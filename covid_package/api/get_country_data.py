@@ -76,25 +76,37 @@ def get_l2_date_data(this_data, these_dates, req_res):
     return_dict = dict()
 
     # initialize a resource list with zeros so we have an exhaustive set of values
-    zero_list = [0] * len(req_res)
+    # zero_list = [0] * len(req_res)
 
+    # iterate over the date list - note that we might be working with a subset of dates
     for this_date in these_dates:
         date_dict = dict()
 
+        # iterate over the countries
         for iso, val in this_data.items():
 
             # initialize the country list with the resource values set to 0
-            country_list = zero_list.copy()
+            # country_list = zero_list.copy()
+            # country_list = []
+            country_list = [0] * len(req_res)
 
+            # iterate over the country's date dictionaries
             for day in val['data']:
 
+                # verify that the date is the one we are looking for
+                # note that countries don't always report every day
                 if this_date == day['date']:
 
+                    # iterate over the resources being collated
+                    # note that countries don't report all values on all days
                     for r, res in enumerate(req_res):
                         # locate the required data in the day dict
                         if res in day.keys():
                             # store the req_res value
                             country_list[r] = day[res]
+
+                    # let's get fancy and use a list comprehension instead of the code block above
+                    # country_list = [day[res] if res in day.keys() else 0 for res in enumerate(req_res)]
 
             date_dict[iso] = country_list
 
@@ -103,6 +115,7 @@ def get_l2_date_data(this_data, these_dates, req_res):
     return return_dict
 
 
+# stand alone test code
 def main():
 
     import os
@@ -115,7 +128,9 @@ def main():
 
     from covid_package.data_funcs.store_data import read_json_data, convert_owid_data
     from covid_package.libs.aggregate_data import fetch_date_list
-    #from covid_package.libs.valid_keys import fetch_l0_keys
+    import config
+    import modify
+    # from covid_package.libs.valid_keys import fetch_l0_keys
 
     # define data path
     FILE_NAME = 'owid-covid-data.json'
@@ -126,24 +141,28 @@ def main():
     data = read_json_data(DATA_FILE)
     data = convert_owid_data(data)
 
-    #key_list = fetch_l0_keys(data)
-    #key_list = ['WRL', 'USA']
+    # key_list = fetch_l0_keys(data)
+    # key_list = ['WRL', 'USA']
 
     print("Testing...")
 
-    #date_list = ['2021-01-01', '2021-01-02', '2021-01-03']
-    #date_list = fetch_date_list(data)
-    req_l1_data = ['population', 'gdp_per_capita']
-    #resources = ['new_cases_per_million', 'new_deaths_per_million']
+    start_date = config.DATA_START_DATE
+    end_date = config.LATEST_DATA_DATE
+    date_list = ['2021-01-01', '2021-01-02', '2021-01-03']
+    #date_list = fetch_date_list(data, start_date=start_date, end_date=end_date)
+    print(date_list)
+    # req_l1_data = ['population', 'gdp_per_capita']
+    req_l2_data = ['new_cases_per_million', 'new_deaths_per_million']
 
     # run the functions
-    #print(get_l0_data(data, req_country))
+    # print(get_l0_data(data, req_country))
 
-    print(get_l1_data(data, req_l1_data))
+    print(get_l2_date_data(data, date_list, req_l2_data))
 
-    #print(get_l2_iso_data(data, resources))
+    # print(get_l2_iso_data(data, resources))
 
-    #print(get_l2_date_data(data, date_list, resources))
+    # print(get_l2_date_data(data, date_list, resources))
+
 
 # stand alone test run
 if __name__ == "__main__":

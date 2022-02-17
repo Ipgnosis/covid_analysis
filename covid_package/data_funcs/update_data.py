@@ -1,16 +1,20 @@
 # modules to check for expiry, read, download/write and delete covid data
 
 from urllib.request import urlopen
-import config
 
+# local imports - uncomment these if being imported externally
+import config
 from covid_package.data_funcs.store_data import delete_file, rename_file, refresh_data, get_last_file_update
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
+
 
 # check that the data is up to date; if not, refresh data from github
 def check_refresh_data():
 
     print('Checking that data is up to date')
-    if expired_data():
+    # bypass expired_data() for now...
+    if True:
+    #if expired_data():
 
         # rename data file to a temp for safety
         if rename_file(config.DATA_FILE_STR, config.OLD_FILE_STR):
@@ -48,7 +52,7 @@ def check_refresh_data():
 def expired_data():
 
     # uncomment this for local testing
-    #from covid_package.libs.aggregate_data import fetch_latest_data_date
+    # from covid_package.libs.aggregate_data import fetch_latest_data_date
 
     # first data update was 2021-04-01T14:40:33Z
     # latest data update was 2021-04-02T09:11:58Z
@@ -102,19 +106,27 @@ def main():
     import sys
     import json
 
-    from pathlib import Path
+    # from pathlib import Path
 
-    proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
-    package_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
+    proj_loc = "C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
     sys.path.append(proj_loc)
 
+    # to test, comment out the local imports at the top
     import config
     import modify
 
+    package_loc = "C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
     sys.path.append(package_loc)
 
     from covid_package.libs.aggregate_data import fetch_latest_data_date
-    from covid_package.data_funcs.store_data import read_json_data, write_json_data, delete_file, rename_file, refresh_data, convert_owid_data, get_last_file_update
+    from covid_package.data_funcs.store_data import read_json_data
+    from covid_package.data_funcs.store_data import write_json_data
+    from covid_package.data_funcs.store_data import delete_file
+    from covid_package.data_funcs.store_data import rename_file
+    from covid_package.data_funcs.store_data import refresh_data
+    from covid_package.data_funcs.store_data import convert_owid_data
+    from covid_package.data_funcs.store_data import get_last_file_update
+
     from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
     from covid_package.libs.valid_keys import fetch_l0_keys
 
@@ -131,6 +143,7 @@ def main():
     print("After update:", fetch_latest_data_date(data))
 
     # get_update_time_fm_owid()
+
 
 # stand alone test run
 # don't forget to flip the import statements

@@ -1,6 +1,4 @@
 # utility functions for managing data
-
-
 import json
 import os
 import requests
@@ -172,22 +170,26 @@ def main():
 
     import os
     import sys
-    #import json
-    #from pathlib import Path
+    # import json
+    # from pathlib import Path
 
-    proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
-    package_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
-    sys.path.insert(0, proj_loc)
-    sys.path.insert(0, package_loc)
+    proj_loc = "C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
+    package_loc = "C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
+    sys.path.append(proj_loc)
+    sys.path.append(package_loc)
 
+    print("sys.path =", sys.path)
+    # to test, comment out the local imports at the top
     import config
     import modify
 
-    update_data = read_json_data(config.UPDATE_FILE_STR)
+    # update_data = read_json_data(config.UPDATE_FILE_STR)
 
-    print(update_data)
+    # print(update_data)
 
-    #write_json_data(config.UPDATE_FILE_STR, update_data)
+    # write_json_data(config.UPDATE_FILE_STR, update_data)
+
+    print(get_last_file_update())
 
 
     """

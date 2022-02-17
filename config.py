@@ -11,6 +11,9 @@ CURRENT_DIR_PATH = "empty"
 COVID_PACKAGE_STR = "empty"
 COVID_PACKAGE_PATH = "empty"
 
+# data folder path
+DATA_FOLDER_PATH = "empty"
+
 # data file paths
 DATA_FILE_STR = "empty"
 DATA_FILE_PATH = "empty"
