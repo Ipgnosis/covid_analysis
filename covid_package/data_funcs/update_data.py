@@ -1,6 +1,7 @@
 # modules to check for expiry, read, download/write and delete covid data
 
-from urllib.request import urlopen
+# from urllib.request import urlopen
+import requests
 
 # local imports - uncomment these if being imported externally
 import config
@@ -12,9 +13,9 @@ from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
 def check_refresh_data():
 
     print('Checking that data is up to date')
-    # bypass expired_data() for now...
+    # bypass expired_data() for now... they keep changing the file name and location
     if True:
-    #if expired_data():
+    # if expired_data():
 
         # rename data file to a temp for safety
         if rename_file(config.DATA_FILE_STR, config.OLD_FILE_STR):
@@ -44,7 +45,7 @@ def check_refresh_data():
         return True
     else:
         # the data wasn't expired, so we are good
-        print("Data file up to date: last updated at:", config.UPDATE_DATETIME_STR)
+        print(f"Data file up to date: last updated at: {config.UPDATE_DATETIME_STR}")
         return True
 
 
@@ -67,7 +68,7 @@ def expired_data():
 
     # calculate if data in need of update
     if owid_updatetime_obj > last_updatetime_obj:  # we should reload the data file
-        print("Expired data file: current file = {}, latest update = {}".format(config.UPDATE_DATETIME_STR, owid_updatetime))
+        print(f"Expired data file: current file = {config.UPDATE_DATETIME_STR}, latest update = {owid_updatetime}")
         # update the global to reflect the new update time
         config.UPDATE_DATETIME_STR = owid_updatetime
         return True
@@ -81,21 +82,32 @@ def expired_data():
 # returns a validated datetime string
 def get_update_time_fm_owid():
 
-    timestamp_url = "https://covid.ourworldindata.org/data/owid-covid-data-last-updated-timestamp.txt"
+    from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
+
+    # old timestamp
+    # timestamp_url = "https://covid.ourworldindata.org/data/owid-covid-data-last-updated-timestamp.txt"
+    # new timestamp
+    timestamp_url = "https://github.com/owid/covid-19-data/blob/master/public/data/internal/timestamp/owid-covid-data-last-updated-timestamp-root.txt"
 
     # get the timestamp
-    timestamp_page = urlopen(timestamp_url)
-    timestamp_str = str(timestamp_page.read(), 'utf-8')
+    try:
+        timestamp_file = requests.get(timestamp_url)
+    except requests.exceptions.RequestException as err:
+        print(f"Data download error: {err}")
+        return False  # this will signal that the timestamp fetch has broken
+
+    print(timestamp_file)
+    print(type(timestamp_file))
 
     # add the timezone to ensure correct format for convert_datetime_str_to_obj
-    updatetime_str = timestamp_str + "Z"
+    updatetime_str = str(timestamp_file) + "Z"
 
     # validate and return the timestamp
     # note we are returning the string, not the object in order not to break later logic
     if convert_datetime_str_to_obj(updatetime_str, 'datetime'):
         return updatetime_str
     else:
-        print("Error: updatetime_str =", updatetime_str)
+        print(f"Error: updatetime_str = {updatetime_str}")
         return False  # this will signal that the timestamp fetch has broken
 
 
@@ -106,8 +118,6 @@ def main():
     import sys
     import json
 
-    # from pathlib import Path
-
     proj_loc = "C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
     sys.path.append(proj_loc)
 
@@ -117,7 +127,7 @@ def main():
 
     package_loc = "C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
     sys.path.append(package_loc)
-
+    """
     from covid_package.libs.aggregate_data import fetch_latest_data_date
     from covid_package.data_funcs.store_data import read_json_data
     from covid_package.data_funcs.store_data import write_json_data
@@ -129,9 +139,9 @@ def main():
 
     from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
     from covid_package.libs.valid_keys import fetch_l0_keys
-
+    """
+    """
     # get data
-
     if check_refresh_data():
         # read the updated(?) data file from the data dir
         data = read_json_data(config.DATA_FILE_STR)
@@ -141,8 +151,9 @@ def main():
         # country_list = fetch_countries(data)
 
     print("After update:", fetch_latest_data_date(data))
+"""
 
-    # get_update_time_fm_owid()
+    print(get_update_time_fm_owid())
 
 
 # stand alone test run

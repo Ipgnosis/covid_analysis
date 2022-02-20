@@ -1,6 +1,7 @@
 
 from datetime import datetime
 
+
 # do the datetime jiggery-pokery
 def convert_datetime_str_to_obj(datetime_str, resolution):
 
@@ -32,7 +33,7 @@ def convert_datetime_str_to_obj(datetime_str, resolution):
         return_obj = datetime.date(datetime_obj).strftime('%A')
 
     else:
-        return False # incorrect parameter
+        return False  # incorrect parameter
 
     return return_obj
 
@@ -42,10 +43,10 @@ def convert_datetime_str_to_obj(datetime_str, resolution):
 def main():
 
     import sys
-    #import json
-    #from pathlib import Path
+    # import json
+    # from pathlib import Path
 
-    #from datetime import date
+    # from datetime import date
 
     proj_loc = "c:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
 
@@ -57,11 +58,11 @@ def main():
     from covid_package.data_funcs.store_data import print_update_record
 
     dtstr = "2021-04-04T08:02:44Z"
-    #dtstr = "blah-04-04T08:02:44Z"  # bad dateime string
+    # dtstr = "blah-04-04T08:02:44Z"  # bad dateime string
 
-    print("time now =", date_time)
+    print("time now =", dtstr)
 
-    #print_update_record()
+    # print_update_record()
 
     print("datetime =", convert_datetime_str_to_obj(dtstr, 'datetime'))
 

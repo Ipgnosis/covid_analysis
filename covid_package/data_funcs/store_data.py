@@ -37,7 +37,7 @@ def convert_owid_data(this_data):
     this_data['WRL'] = this_data.pop('OWID_WRL')
 
     # trap new OWID codes
-    {print('New OWID_ key:', key) for key in this_data.keys() if len(key) > 3}
+    {print(f"New OWID_ key: {key}") for key in this_data.keys() if len(key) > 3}
 
     return this_data
 
@@ -51,7 +51,7 @@ def print_update_record():
     print("Earliest update =", updata["earliest_update"])
 
     for u, val in enumerate(updata["update_list"]):
-        print("Update", u + 1, "=", val)
+        print(f"Update {u + 1} = {val}")
 
 
 # read a json data file
@@ -63,7 +63,7 @@ def read_json_data(fname):
         return data
     except OSError as error:
         print(error)
-        print("File {} cannot be read".format(fname))
+        print("File {fname} cannot be read")
         return False
 
 
@@ -76,7 +76,7 @@ def write_json_data(fname, wdata):
         return True
     except OSError as error:
         print(error)
-        print("File {} cannot be saved".format(fname))
+        print(f"File {fname} cannot be saved")
         return False
 
 
@@ -88,7 +88,7 @@ def delete_file(fname):
         return True
     except OSError as error:
         print(error)
-        print("File {} cannot be removed".format(fname))
+        print(f"File {fname} cannot be removed")
         return False
 
 
@@ -99,7 +99,7 @@ def rename_file(fromf, tof):
         os.rename(fromf, tof)
         return True
     except OSError as error:
-        print(error)
+        print(f"File {fromf} cannot be renamed: {error}")
         return False
 
 
@@ -110,8 +110,8 @@ def refresh_data(source_url, data_file):
     # get the json data from github
     try:
         downloaded_data = requests.get(source_url).json()
-    except:
-        print("Data cannot be downloaded from OWID")
+    except requests.exceptions.RequestException as err:
+        print(f"Data download error: {err}")
         return False
 
     # if we updated the data without error
@@ -190,7 +190,6 @@ def main():
     # write_json_data(config.UPDATE_FILE_STR, update_data)
 
     print(get_last_file_update())
-
 
     """
     dtstr = "2021-04-04T08:02:44Z"

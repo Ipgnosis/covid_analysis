@@ -2,6 +2,7 @@
 
 from datetime import datetime
 
+
 #  compiles a list of distinct country keys, excluding aggregations
 def fetch_l0_keys(this_data):
 
@@ -64,7 +65,7 @@ def valid_date(this_date):
     try:
         datetime.strptime(this_date, format)
         return True
-    except:
+    except ValueError:
         return False
 
 

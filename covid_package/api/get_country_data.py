@@ -99,9 +99,10 @@ def get_l2_date_data(this_data, these_dates, req_res):
 
                     # iterate over the resources being collated
                     # note that countries don't report all values on all days
+
                     for r, res in enumerate(req_res):
                         # locate the required data in the day dict
-                        if res in day.keys():
+                        if res in day:
                             # store the req_res value
                             country_list[r] = day[res]
 

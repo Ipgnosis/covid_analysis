@@ -4,14 +4,14 @@ import config
 
 from covid_package.api.get_country_data import get_l2_iso_data
 
+
 # return all data for a specific country
 def fetch_country_data(this_data, this_country):
 
     return this_data[this_country]
 
+
 # return specific items from the top level data
-
-
 def fetch_top_level_data(this_data, this_country, this_key):
 
     # print(this_key)
@@ -22,15 +22,14 @@ def fetch_top_level_data(this_data, this_country, this_key):
     else:
         return None
 
+
 # return the number of day records for a country
-
-
 def count_daily_records(this_data, this_country):
 
     return len(this_data[this_country]["data"])
 
-# return the date range of the daily records for a country
 
+# return the date range of the daily records for a country
 def fetch_date_range(this_data, this_country):
 
     start_date = this_data[this_country]["data"][0]["date"]
@@ -61,8 +60,8 @@ def fetch_date_list(this_data, **kwargs):
 
     return sorted_dates
 
-# return the date of the latest data
 
+# return the date of the latest data
 def fetch_latest_data_date(this_data):
 
     latest_date = "2020-01-01"
@@ -81,6 +80,7 @@ def fetch_latest_data_date(this_data):
         latest_date = "ERROR"
 
     return latest_date
+
 
 # aggregate the values from a specific country and second level resource
 def aggregate_second_level_data(this_data, this_country, this_key):
@@ -103,7 +103,6 @@ def get_min_max_data(main_data, iso_list, res_list, enn):
         tops[res] = [0]
         bottoms[res] = [999999999]
 
-
     iso_data = get_l2_iso_data(main_data, iso_list, res_list)
 
     for iso in iso_data:
@@ -112,7 +111,6 @@ def get_min_max_data(main_data, iso_list, res_list, enn):
                 tops[res].append({iso: day[res]})
                 bottoms[res].append({iso: day[res]})
                 pass
-
 
 
 """
@@ -151,12 +149,11 @@ def main():
 
     print("Testing...")
 
-    #key_list = fetch_l0_keys(data)
+    # key_list = fetch_l0_keys(data)
 
     data = convert_owid_data(data)
 
     print("Dates of data are:", fetch_date_range(data, 'WRL'))
-
 
     """
     agg_test_data = {
@@ -211,6 +208,7 @@ def main():
     print("'CAN': new_deaths (ans = 6)", aggregate_second_level_data(
         agg_test_data, "CAN", "new_deaths"))
     """
+
 
 # stand alone test run
 if __name__ == "__main__":
