@@ -51,7 +51,7 @@ def fetch_date_list(this_data, **kwargs):
         this_start_date = config.DATA_START_DATE
         this_end_date = config.LATEST_DATA_DATE
 
-    for this_country in this_data.keys():
+    for this_country in this_data:
         for day_obj in this_data[this_country]['data']:
             if (day_obj['date'] >= this_start_date) and (day_obj['date'] <= this_end_date) and (day_obj['date'] not in set(date_list)):
                 date_list.append(day_obj['date'])

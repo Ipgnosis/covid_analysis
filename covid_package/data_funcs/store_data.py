@@ -37,7 +37,7 @@ def convert_owid_data(this_data):
     this_data['WRL'] = this_data.pop('OWID_WRL')
 
     # trap new OWID codes
-    {print(f"New OWID_ key: {key}") for key in this_data.keys() if len(key) > 3}
+    {print(f"New OWID_ key: {key}") for key in this_data if len(key) > 3}
 
     return this_data
 

@@ -2,15 +2,16 @@
 
 import json
 
+
 # the country (level 0) api
 # returns all the data for a country
-
 def get_l0_data(this_data, this_country):
 
     country_data = json.dumps(
         this_data[this_country], indent=4, skipkeys=False)
 
     return country_data
+
 
 # the level 1 api
 # req_keys is a list of level 1 keys
@@ -24,11 +25,12 @@ def get_l1_data(this_data, req_keys):
         country_dict = dict()
         for req_key in req_keys:
 
-            if req_key in country.keys():
-                country_dict[req_key] = country[req_key]
+            if req_key in country:
+                country_dict[req_key] = req_key
         return_dict[iso] = country_dict
 
     return return_dict
+
 
 # the level 2 key api
 # req_keys is a list of level 2 keys
@@ -50,10 +52,10 @@ def get_l2_iso_data(this_data, req_keys):
             # traverse the day object looking for the required key:vals
             for req_key in req_keys:
                 # locate the required data in the day dict
-                if req_key in day.keys():
+                if req_key in day:
                     day_data = True  # we have now found data
                     # write the key:val
-                    day_dict[req_key] = day[req_key]
+                    day_dict[req_key] = req_key
 
             # only append the day_dict to the list if we have found data
             if day_data:

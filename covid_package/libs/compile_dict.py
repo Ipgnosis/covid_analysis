@@ -26,16 +26,16 @@ def collate_data(this_country_date_data):
         vals.pop('WRL')
 
         # calculate the std dev for the day
-        mean_stdev = get_stdevs(vals)
+        stdev_1, stdev_2 = get_stdevs(vals)
 
         # populate the date dict for this day
         data_dict[day] = {
             "wrl_val_1": wrl_val_1,
             "wrl_val_2": wrl_val_2,
-            "stdev_upper_val_1": wrl_val_1 + mean_stdev[0],
-            "stdev_lower_val_1": max(wrl_val_1 - mean_stdev[0], 0),
-            "stdev_upper_val_2": wrl_val_2 + mean_stdev[1],
-            "stdev_lower_val_2": max(wrl_val_2 - mean_stdev[1], 0),
+            "stdev_upper_val_1": wrl_val_1 + stdev_1,
+            "stdev_lower_val_1": max(wrl_val_1 - stdev_1, 0),
+            "stdev_upper_val_2": wrl_val_2 + stdev_2,
+            "stdev_lower_val_2": max(wrl_val_2 - stdev_2, 0),
             "country_vals": vals
         }
 
@@ -75,8 +75,8 @@ def collate_plot_data(isos, all_country_res_data):
         print_dict["x_axis"].append(datetime.strptime(key, "%Y-%m-%d"))
 
         # store the value for World
-        wrl_val_0 = vals['WRL'][0]
-        wrl_val_1 = vals['WRL'][1]
+        wrl_val_1 = vals['WRL'][0]
+        wrl_val_2 = vals['WRL'][1]
 
         # collate the values for World
         print_dict["yw1_axis"].append(vals['WRL'][0])
@@ -88,13 +88,13 @@ def collate_plot_data(isos, all_country_res_data):
         stdev_vals.pop('WRL')
 
         # calculate the std dev for the day
-        mean_stdev = get_stdevs(stdev_vals)
+        stdev_1, stdev_2 = get_stdevs(stdev_vals)
 
         # collate the WRL values for the two plots
-        print_dict["yw1_upper"].append(wrl_val_0 + mean_stdev[0])
-        print_dict["yw1_lower"].append(max(wrl_val_0 - mean_stdev[0], 0))
-        print_dict["yw2_upper"].append(wrl_val_1 + mean_stdev[1])
-        print_dict["yw2_lower"].append(max(wrl_val_1 - mean_stdev[1], 0))
+        print_dict["yw1_upper"].append(wrl_val_1 + stdev_1)
+        print_dict["yw1_lower"].append(max(wrl_val_1 - stdev_1, 0))
+        print_dict["yw2_upper"].append(wrl_val_2 + stdev_2)
+        print_dict["yw2_lower"].append(max(wrl_val_2 - stdev_2, 0))
 
         # trim down the country_data_data to the target isos
         # append the ax1 and ax1 y-axis plot values to the respective lists
