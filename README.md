@@ -2,7 +2,7 @@
 
 *This is a work in progress...*
 
-Note that this was originally a standard Jupyter Notebook analysis.  However, over time, plans changed.  For a while, the intent was to host the analysis on a website, with an api feeding the data.  But after numerous sources of this data became available, doing this was no-longer cost-effective.  Now the code is in .ipynb format, but runs like a standard Python 3 program.  Feel free to convert it to .py format, or just run it in a Notebook.
+*Note that this was originally a standard Jupyter Notebook analysis.  However, over time, plans changed.  For a while, the intent was to host the analysis on a website, with an api feeding the data.  But after numerous sources of this data became available, doing this was no-longer cost-effective.  Now the code is in .ipynb format, but runs like a standard Python 3 program.  Feel free to convert it to .py format, or just run it in a Notebook.*
 
 **A Jupyter Notebook for covid analysis.**
 
