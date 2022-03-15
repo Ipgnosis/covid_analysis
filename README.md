@@ -2,6 +2,8 @@
 
 *This is a work in progress...*
 
+Note that this was originally a standard Jupytper Notebook analysis.  However, over time, plans changed.  For a while, the intent was to host the analysis on a website, with an api feeding the data.  But after numerous publicly available sources of this data became available, doing this was not cost-effective.  Now the code is in .ipynb format, but runs like a standard Python program.  Feel free to convert it to .py format.
+
 **A Jupyter Notebook for covid analysis.**
 
 Like many others, I have been fascinated (not to mention horrified) by the Covid-19 pandemic.  What I knew about virology and epidemiology before 2020 could be written on a postage stamp, but now I am as up to speed as any layperson on this topic.  But, I have many (many) questions for which I am unable to find answers.  So... I decided to kick off an analysis, but first needed some (reliable) data.
