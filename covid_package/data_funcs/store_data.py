@@ -7,9 +7,14 @@ import config
 
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
 
-
 # convert the 'OWID_' iso_codes to 3 char codes or remove
 def convert_owid_data(this_data):
+    """ Takes the OWID json as an input and returns a converted json as an output.
+        Removes all isos starting with 'OWID_'. Some are removed as they are just aggregates of the
+        country data.  Some are converted as they are actually countries whose existence is
+        challenged by other countries (e.g. Kosovo)  OWID_WRL is convered to WRL, a synthetic
+        'country' as it contains the aggregated data for the world that is used by other functions.
+    """
 
     # the list(s) of OWID_ data that we are going to remove for consistency
 

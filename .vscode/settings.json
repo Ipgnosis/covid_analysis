@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C://Users//russe//AppData//Local//Programs//Python//Python310//Python.exe",
+    "python.pythonPath": "C://Python//Python.exe",
     "python.terminal.activateEnvironment": true,
     "python.linting.mypyEnabled": false,
     "python.linting.enabled": true,

@@ -9,26 +9,26 @@ def convert_datetime_str_to_obj(datetime_str, resolution):
 
     datetime_obj = datetime.strptime(datetime_str, github_format)
 
-    if resolution == 'datetime': # returns type datetime
+    if resolution == 'datetime':  # returns type datetime
         return_obj = datetime_obj
 
-    elif resolution == 'date': # returns type date
+    elif resolution == 'date':  # returns type date
         return_obj = datetime.date(datetime_obj)
 
-    elif resolution == 'time': # returns type time
+    elif resolution == 'time':  # returns type time
         return_obj = datetime.time(datetime_obj)
 
-    elif resolution == 'hour': # returns type str
+    elif resolution == 'hour':  # returns type str
         return_obj = datetime.time(datetime_obj).strftime('%H')
 
-    elif resolution == 'minute': # returns type str
+    elif resolution == 'minute':  # returns type str
         return_obj = datetime.time(datetime_obj).strftime('%M')
 
-    elif resolution == 'day_num': # returns type int
+    elif resolution == 'day_num':  # returns type int
         # 1 = Monday, 7 = Sunday
         return_obj = datetime.date(datetime_obj).isoweekday()
 
-    elif resolution == 'day': # returns type str
+    elif resolution == 'day':  # returns type str
         # 1 = Monday, 7 = Sunday
         return_obj = datetime.date(datetime_obj).strftime('%A')
 

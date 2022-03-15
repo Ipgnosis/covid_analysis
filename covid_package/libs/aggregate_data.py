@@ -4,7 +4,6 @@ import config
 
 from covid_package.api.get_country_data import get_l2_iso_data
 
-
 # return all data for a specific country
 def fetch_country_data(this_data, this_country):
 

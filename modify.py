@@ -17,19 +17,22 @@ country_file_name = 'country-data.json'
 # data went missing from github in Jan, 2022
 config.DATA_URL_STR = "https://covid.ourworldindata.org/data/owid-covid-data.json"
 # changed again, WTF????
-#config.DATA_URL_STR = "https://github.com/owid/covid-19-data/tree/master/public/data/latest/owid-covid-latest.json"
+# config.DATA_URL_STR = "https://github.com/owid/covid-19-data/tree/master/public/data/latest/owid-covid-latest.json"
 
 # set up the project paths
 
 # the top level location of the project code
 config.CURRENT_DIR_STR = os.path.abspath('')
-config.CURRENT_DIR_PATH = Path(config.CURRENT_DIR_STR)
-sys.path.append(config.CURRENT_DIR_PATH)
+#config.CURRENT_DIR_PATH = Path(config.CURRENT_DIR_STR)
+#sys.path.append(config.CURRENT_DIR_PATH)
+sys.path.append(config.CURRENT_DIR_STR)
+
 
 # the package for the libraries which will ultimately be installed in the app and the api
 config.COVID_PACKAGE_STR = os.path.join(config.CURRENT_DIR_STR, 'covid_package')
-config.COVID_PACKAGE_PATH = Path(config.COVID_PACKAGE_STR)
-sys.path.append(config.COVID_PACKAGE_PATH)
+#config.COVID_PACKAGE_PATH = Path(config.COVID_PACKAGE_STR)
+#sys.path.append(config.COVID_PACKAGE_PATH)
+sys.path.append(config.COVID_PACKAGE_STR)
 
 # set up the file paths
 
