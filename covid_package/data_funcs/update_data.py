@@ -32,7 +32,6 @@ def check_refresh_data():
             delete_file(config.DATA_FILE_STR)
 
         # try to get an updated copy of the data and store it
-#        if refresh_data(config.DATA_URL_STR, config.DATA_FILE_STR):
         if refresh_data():
             # safe to delete the old data file
             delete_file(config.OLD_FILE_STR)
