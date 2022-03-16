@@ -7,6 +7,7 @@ import config
 
 from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
 
+
 # convert the 'OWID_' iso_codes to 3 char codes or remove
 def convert_owid_data(this_data):
     """ Takes the OWID json as an input and returns a converted json as an output.
@@ -49,6 +50,7 @@ def convert_owid_data(this_data):
 
 # output the contents of update-record.json
 def print_update_record():
+    """Output the contents of update-record.json"""
 
     updata = read_json_data(config.UPDATE_FILE_STR)
 
@@ -61,6 +63,7 @@ def print_update_record():
 
 # read a json data file
 def read_json_data(fname):
+    """Read a json data file string/path"""
 
     try:
         with open(fname) as json_file:
@@ -74,6 +77,7 @@ def read_json_data(fname):
 
 # write a json data file
 def write_json_data(fname, wdata):
+    """Write a json data file"""
 
     try:
         with open(fname, 'w', encoding='utf-8') as outfile:
@@ -87,6 +91,7 @@ def write_json_data(fname, wdata):
 
 # delete the old data
 def delete_file(fname):
+    """Delete the param file string/path"""
 
     try:
         os.remove(fname)
@@ -99,6 +104,7 @@ def delete_file(fname):
 
 # rename a file
 def rename_file(fromf, tof):
+    """Rename a file string/path"""
 
     try:
         os.rename(fromf, tof)
@@ -110,19 +116,19 @@ def rename_file(fromf, tof):
 
 # download and save new data file version
 # data went missing from Github in Jan, 2022
-def refresh_data(source_url, data_file):
+def refresh_data():
+    """Download and save new data file version.  Data went missing from GitHub in Jan 2022."""
 
     # get the json data from github
     try:
-        downloaded_data = requests.get(source_url).json()
+        downloaded_data = requests.get(config.DATA_URL_STR).json()
     except requests.exceptions.RequestException as err:
         print(f"Data download error: {err}")
         return False
 
     # if we updated the data without error
-    if write_json_data(data_file, downloaded_data):
+    if write_json_data(config.DATA_FILE_STR, downloaded_data):
         update_the_update_file()  # update the record of updates
-
     else:
         return False
 
@@ -131,6 +137,7 @@ def refresh_data(source_url, data_file):
 
 # return a datetime string for the last time the data was updated
 def get_last_file_update():
+    """Return a dateime string for the last time the data was updated."""
 
     update_data_file = read_json_data(config.UPDATE_FILE_STR)
 
@@ -141,6 +148,7 @@ def get_last_file_update():
 
 # append new update time to UPDATE_FILE
 def update_the_update_file():
+    """Append the new update time to UPDATE_FILE"""
 
     # get the update file
     update_data = read_json_data(config.UPDATE_FILE_STR)
@@ -158,7 +166,8 @@ def update_the_update_file():
     this_update = convert_datetime_str_to_obj(config.UPDATE_DATETIME_STR, 'time')
 
     # update the earliest update time as necessary
-    # don't forget that this is a datetime string - this will need to be reconverted later once needed
+    # don't forget that this is a datetime string
+    # this will need to be reconverted later once needed
     if this_update < earliest_update:
         update_data['earliest_update'] = config.UPDATE_DATETIME_STR
 
@@ -178,8 +187,8 @@ def main():
     # import json
     # from pathlib import Path
 
-    proj_loc = "C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis"
-    package_loc = "C:\\Users\\Ipgnosis\\Documents\\Github\\covid_analysis\\covid_package"
+    proj_loc = "C:\\Users\\russe\\Documents\\Repos\\Github\\covid_analysis"
+    package_loc = "C:\\Users\\russe\\Documents\\Repos\\Github\\covid_analysis\\covid_package"
     sys.path.append(proj_loc)
     sys.path.append(package_loc)
 

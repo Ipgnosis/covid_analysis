@@ -27,12 +27,13 @@ def check_refresh_data():
             pass
         else:
             # the file rename failed
-            print("File '{}' rename failed".format(config.DATA_FILE_STR))
+            print(f"File '{config.DATA_FILE_STR}' rename failed")
             # delete the old data so we don't get an overwrite problem
             delete_file(config.DATA_FILE_STR)
 
         # try to get an updated copy of the data and store it
-        if refresh_data(config.DATA_URL_STR, config.DATA_FILE_STR):
+#        if refresh_data(config.DATA_URL_STR, config.DATA_FILE_STR):
+        if refresh_data():
             # safe to delete the old data file
             delete_file(config.OLD_FILE_STR)
 
