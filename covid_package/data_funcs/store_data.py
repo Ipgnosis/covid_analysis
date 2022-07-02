@@ -1,12 +1,4 @@
 # utility functions for managing data
-import json
-import os
-import requests
-
-import config
-
-from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj
-
 
 # convert the 'OWID_' iso_codes to 3 char codes or remove
 def convert_owid_data(this_data):
@@ -181,16 +173,7 @@ def update_the_update_file():
 
 
 def main():
-
-    import os
-    import sys
-    # import json
-    # from pathlib import Path
-
-    proj_loc = "C:\\Users\\russe\\Documents\\Repos\\Github\\covid_analysis"
-    package_loc = "C:\\Users\\russe\\Documents\\Repos\\Github\\covid_analysis\\covid_package"
-    sys.path.append(proj_loc)
-    sys.path.append(package_loc)
+    """Test function"""
 
     print("sys.path =", sys.path)
     # to test, comment out the local imports at the top
@@ -223,4 +206,20 @@ def main():
 # stand alone test run
 # don't forget to flip the import statements
 if __name__ == "__main__":
+
+    import sys
+    proj_loc = "C:\\Users\\russe\\Documents\\Repos\\Github\\covid_analysis"
+    package_loc = "C:\\Users\\russe\\Documents\\Repos\\Github\\covid_analysis\\covid_package"
+    sys.path.append(proj_loc)
+    sys.path.append(package_loc)
+
     main()
+
+else:  # get the module imports
+    import json
+    import os
+    import requests
+
+    import config
+
+    from covid_package.data_funcs.datetime_funcs import convert_datetime_str_to_obj

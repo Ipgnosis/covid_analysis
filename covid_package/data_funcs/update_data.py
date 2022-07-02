@@ -18,8 +18,8 @@ def check_refresh_data():
 
     print('Checking that data is up to date')
     # bypass expired_data() for now... they keep changing the file name and location
-    # if True:
-    if expired_data():
+    if True:
+    # if expired_data():
 
         # rename data file to a temp for safety
         if rename_file(config.DATA_FILE_STR, config.OLD_FILE_STR):
